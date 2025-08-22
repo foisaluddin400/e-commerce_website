@@ -20,14 +20,14 @@ export const Navbar = () => {
       children: [
         {
           label: "Custom Apparel",
-          path: "/service/custom-apparel",
+          path: "/allProduct",
           children: [
-            { label: "T-Shirts", path: "/service/custom-apparel/tshirts" },
-            { label: "Hoodies", path: "/service/custom-apparel/hoodies" },
+            { label: "T-Shirts", path: "/allProduct" },
+            { label: "Hoodies", path: "/allProduct" },
           ],
         },
-        { label: "Accessories & Gifts", path: "/service/accessories-gifts" },
-        { label: "Prints & Labels", path: "/service/prints-labels" },
+        { label: "Accessories & Gifts", path: "/allProduct" },
+        { label: "Prints & Labels", path: "/allProduct" },
       ],
     },
     { label: "Individual Product", path: "/individual_product" },

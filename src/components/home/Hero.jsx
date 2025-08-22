@@ -67,7 +67,7 @@ const Hero = () => {
                 <SplideSlide key={slide.id}>
                   <div className="md:grid grid-cols-12 gap-4">
                     <div className="md:flex items-center col-span-12">
-                      <div className="bg-light md:grid grid-cols-2 p-16 h-[80vh] py-16 w-full">
+                      <div className="bg-light md:grid grid-cols-2 md:p-16 p-4 h-[80vh] py-16 w-full">
                         {/* Left Text Section */}
                         <div className="flex items-center">
                           <div>
