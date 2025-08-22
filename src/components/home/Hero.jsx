@@ -6,6 +6,7 @@ import tshirt from "../../assets/Home/shirt1.png";
 import hero from "../../assets/Home/hero.png";
 import { Headphones, Package, RotateCcw, Shield } from "lucide-react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 const Hero = () => {
   const splideRef = useRef(null);
 
@@ -80,9 +81,9 @@ const Hero = () => {
                             <p className="text-gray-600 mb-6 max-w-md">
                               {slide.desc}
                             </p>
-                            <button className="bg-primary hover:bg-red-600 text-white px-8 py-3 rounded font-medium">
+                           <Link to={'/allProduct/productDetails/design'}> <button className="bg-primary hover:bg-red-600 text-white px-8 py-3 rounded font-medium">
                               START DESIGNING →
-                            </button>
+                            </button></Link>
                           </div>
                         </div>
 
@@ -120,9 +121,9 @@ const Hero = () => {
                 <p className="font-semibold text-3xl text-white">50% Off</p>
 
                 <div>
-                  <button className="bg-primary mt-6  hover:bg-red-600 text-white px-2 py-3 rounded ">
+                  <Link to={'/allProduct/productDetails/design'}><button className="bg-primary mt-6  hover:bg-red-600 text-white px-2 py-3 rounded ">
                     START DESIGNING →
-                  </button>
+                  </button></Link>
                 </div>
               </div>
             </div>
@@ -155,9 +156,9 @@ const Hero = () => {
                 </p>
 
                 <div>
-                  <button className="bg-primary mt-6  hover:bg-red-600 text-white px-2 py-3 rounded ">
+                  <Link to={'/allProduct/productDetails/design'}><button className="bg-primary mt-6  hover:bg-red-600 text-white px-2 py-3 rounded ">
                     START DESIGNING →
-                  </button>
+                  </button></Link>
                 </div>
               </div>
             </div>

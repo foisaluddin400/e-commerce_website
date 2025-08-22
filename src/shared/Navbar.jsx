@@ -251,7 +251,7 @@ export const Navbar = () => {
         title={
           <img src={logo} alt="Logo" className="w-[120px]  mx-auto block" />
         }
-        placement="left"
+        placement="right"
         onClose={() => setDrawerOpen(false)}
         open={drawerOpen}
       >

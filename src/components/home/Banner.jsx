@@ -1,6 +1,7 @@
 import React from "react";
 import banner from "../../assets/Home/banner.png";
 import shirt from "../../assets/Home/grup.png";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
   return (
@@ -19,9 +20,9 @@ const Banner = () => {
           <p className="text-lg text-gray-700 max-w-md">
           Bring your ideas to life with our easy-to-use custom T-shirt design tool.
           </p>
-         <button className="bg-primary hover:bg-red-600 text-white px-8 py-3 rounded font-medium">
+         <Link to={'/allProduct/productDetails/design'}><button className="bg-primary hover:bg-red-600 text-white px-8 py-3 rounded font-medium">
                   START DESIGNING →
-                </button>
+                </button></Link>
         </div>
 
         {/* Right Side */}
