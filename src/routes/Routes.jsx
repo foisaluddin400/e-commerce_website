@@ -1,13 +1,11 @@
 
 import { Root } from "../layout/Root";
-import { AboutPage } from "../Pages/CompanyPage/AboutPage";
-import { CompanyPage } from "../Pages/CompanyPage/CompanyPage";
-import { TechPartnerPage } from "../Pages/CompanyPage/TechPartnerPage";
+
+
 import { ContuctUsPage } from "../Pages/ContactUsPage/ContuctUsPage";
 import { HomePage } from "../Pages/HomePage/HomePage";
 import { createBrowserRouter } from "react-router-dom";
-import { StructuredCabilingPage } from "../Pages/ServicesPage/StructuredCabilingPage";
-import { BreakFixServicesPage } from "../Pages/ServicesPage/BreakFixServicesPage";
+
 import { SubmitTicketPage } from "../Pages/SubmitTicketPage.jsx/SubmitTicketPage";
 import { BlogPage } from "../Pages/BlogPage/BlogPage";
 import { Login } from "../Auth/Login";
@@ -17,6 +15,17 @@ import { NewPassword } from "../Auth/NewPassword";
 import { SignUp } from "../Auth/SignUp";
 import { ProfilePage } from "../Pages/ProfilePage/ProfilePage";
 import { OngoingTicketPage } from "../Pages/ProfilePage/OngoingTicketPage";
+import IndividualProduct from "../Pages/individualProduct/IndividualProduct";
+import Order from "../Pages/order/Order";
+import About from "../Pages/about/About";
+import AllProduct from "../Pages/allProduct/AllProduct";
+import ProductDetails from "../Pages/allProduct/ProductDetails";
+import DesignPage from "../Pages/allProduct/DesignPage";
+import Cart from "../Pages/cart/Cart";
+import SaveDesign from "../Pages/allProduct/SaveDesign";
+import SaveDetails from "../Pages/allProduct/SaveDetails";
+
+
 
 export const router = createBrowserRouter([
     {
@@ -27,22 +36,48 @@ export const router = createBrowserRouter([
                 path: '/',
                 element: <HomePage></HomePage>,
             },
-            {
-                path: '/company/about-us',
-                element: <AboutPage></AboutPage>
+             {
+                path: '/individual_product',
+                element: <IndividualProduct></IndividualProduct>
+            },
+              {
+                path: '/order_page',
+                element: <Order></Order>
+            },
+              {
+                path: '/about',
+                element: <About></About>
+            },
+      {
+                path: '/allProduct',
+                element: <AllProduct></AllProduct>
+            },
+               {
+                path: '/allProduct/productDetails',
+                element: <ProductDetails></ProductDetails>
+            },
+
+             {
+                path: '/allProduct/productDetails/design',
+                element: <DesignPage></DesignPage>
             },
             {
-                path: '/company/tech-pertners',
-                element: <TechPartnerPage></TechPartnerPage>
+                path: '/allProduct/productDetails/design/saveDesign',
+                element:<SaveDesign></SaveDesign>
             },
-            {
-                path: '/services/Structure-Cabling',
-                element: <StructuredCabilingPage></StructuredCabilingPage>
+              {
+                path: '/allProduct/productDetails/design/saveDesign/details',
+                element:<SaveDetails></SaveDetails>
             },
-            {
-                path: '/services/Break-FixServices',
-                element: <BreakFixServicesPage></BreakFixServicesPage>
+      
+           {
+                path: '/cart',
+                element: <Cart></Cart>
             },
+      
+        
+        
+      
             {
                 path: '/contactUs',
                 element: <ContuctUsPage></ContuctUsPage>
