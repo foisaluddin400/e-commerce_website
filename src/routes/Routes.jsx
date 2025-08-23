@@ -7,7 +7,7 @@ import { HomePage } from "../Pages/HomePage/HomePage";
 import { createBrowserRouter } from "react-router-dom";
 
 import { SubmitTicketPage } from "../Pages/SubmitTicketPage.jsx/SubmitTicketPage";
-import { BlogPage } from "../Pages/BlogPage/BlogPage";
+import  BlogPage  from "../Pages/BlogPage/BlogPage";
 import { Login } from "../Auth/Login";
 import { ForgotPassword } from "../Auth/ForgotPassword";
 import { Verification } from "../Auth/Verification";
@@ -24,6 +24,11 @@ import DesignPage from "../Pages/allProduct/DesignPage";
 import Cart from "../Pages/cart/Cart";
 import SaveDesign from "../Pages/allProduct/SaveDesign";
 import SaveDetails from "../Pages/allProduct/SaveDetails";
+import GetPrice from "../Pages/allProduct/GetPrice";
+import ChooseOrder from "../Pages/allProduct/ChooseOrder";
+import OrderSummery from "../Pages/allProduct/OrderSummery";
+import PaymentOrder from "../Pages/allProduct/PaymentOrder";
+import IndividualDetails from "../Pages/allProduct/IndividualDetails";
 
 
 
@@ -39,6 +44,10 @@ export const router = createBrowserRouter([
              {
                 path: '/individual_product',
                 element: <IndividualProduct></IndividualProduct>
+            },
+              {
+                path: '/individual_product/details',
+                element:<IndividualDetails></IndividualDetails>
             },
               {
                 path: '/order_page',
@@ -68,6 +77,22 @@ export const router = createBrowserRouter([
               {
                 path: '/allProduct/productDetails/design/saveDesign/details',
                 element:<SaveDetails></SaveDetails>
+            },
+             {
+                path: '/allProduct/productDetails/design/getPrice',
+                element:<GetPrice></GetPrice>
+            },
+              {
+                path: '/allProduct/productDetails/design/getPrice/chooseOrder',
+                element:<ChooseOrder></ChooseOrder>
+            },
+            {
+                path: '/allProduct/productDetails/design/getPrice/chooseOrder/orderSummery',
+                element:<OrderSummery></OrderSummery>
+            },
+             {
+                path: '/allProduct/productDetails/design/getPrice/chooseOrder/orderSummery/paymentOrder',
+                element:<PaymentOrder></PaymentOrder>
             },
       
            {

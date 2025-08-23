@@ -233,7 +233,7 @@ export default function TShirtDesigner() {
             </p>
             <div className="flex gap-2 mt-2">
               <Link to={'/allProduct/productDetails/design/saveDesign'}><button className="flex-1 bg-gray-800 text-white p-2">Save / Share</button></Link>
-              <button className="flex-1 border p-2">Get Price</button>
+              <Link to={'/allProduct/productDetails/design/getPrice'}><button className="flex-1 border p-2">Get Price</button></Link>
             </div>
           </div>
         </div>

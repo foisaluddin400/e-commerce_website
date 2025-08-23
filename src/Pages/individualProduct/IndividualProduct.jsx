@@ -1,4 +1,5 @@
 
+import { Link } from "react-router-dom";
 import img2 from "../../assets/Home/shirt.png";
 import img3 from "../../assets/Home/shirt1.png";
 
@@ -49,13 +50,13 @@ const IndividualProduct = () => {
               <div className="flex items-center gap-6 p-6">
                 {/* Product Image */}
                 <div className="relative flex-shrink-0">
-                  <div className="w-32 h-32 bg-white rounded-lg border border-gray-200 overflow-hidden">
+                  <Link to={'/individual_product/details'}><div className="w-32 h-32 bg-white rounded-lg border border-gray-200 overflow-hidden">
                     <img
                       src={product.image || "/placeholder.svg"}
                       alt={product.name}
                       className="w-full h-full object-cover"
                     />
-                  </div>
+                  </div></Link>
                   {/* Discount Badge */}
                   <span className="absolute -top-2 -right-2 bg-primary hover:bg-red-600 text-white font-semibold px-2 py-1 text-xs rounded">
                     {product.discount}

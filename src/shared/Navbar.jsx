@@ -31,7 +31,7 @@ export const Navbar = () => {
       ],
     },
     { label: "Individual Product", path: "/individual_product" },
-    { label: "Order", path: "/order_page", badge: 2 },
+    { label: "Order", path: "/allProduct", badge: 2 },
     { label: "About", path: "/about" },
     { label: "Contact", path: "/contactUs" },
     { label: "Blog", path: "/blog" },
