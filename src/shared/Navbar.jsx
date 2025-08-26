@@ -88,7 +88,7 @@ export const Navbar = () => {
             className={({ isActive }) =>
               `block px-4 py-2 ${
                 isActive
-                  ? "bg-yellow-400 text-black font-medium"
+                  ? ""
                   : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
               }`
             }
@@ -210,7 +210,7 @@ export const Navbar = () => {
                       className={({ isActive }) =>
                         `flex items-center gap-1 px-2 py-1 rounded ${
                           isActive || isPathActive(item)
-                            ? "bg-yellow-400 text-black font-medium"
+                            ? "bg-secondary text-black font-medium"
                             : "text-gray-600 hover:text-gray-900"
                         }`
                       }

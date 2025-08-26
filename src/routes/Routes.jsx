@@ -29,6 +29,9 @@ import ChooseOrder from "../Pages/allProduct/ChooseOrder";
 import OrderSummery from "../Pages/allProduct/OrderSummery";
 import PaymentOrder from "../Pages/allProduct/PaymentOrder";
 import IndividualDetails from "../Pages/allProduct/IndividualDetails";
+import Faq from "../Pages/setting/Faq";
+import PrivecyAndPolicy from "../Pages/setting/PrivecyAndPolicy";
+import TermsAndCondition from "../Pages/setting/TermsAndCondition";
 
 
 
@@ -100,6 +103,21 @@ export const router = createBrowserRouter([
                 element: <Cart></Cart>
             },
       
+
+            {
+                path: '/faq',
+                element: <Faq></Faq>
+            },
+
+              {
+                path: '/privecyPolicy',
+                element: <PrivecyAndPolicy></PrivecyAndPolicy>
+            },
+
+              {
+                path: '/termsAndCondition',
+                element: <TermsAndCondition></TermsAndCondition>
+            },
         
         
       

@@ -55,13 +55,13 @@ export const Footer = () => {
           <div className="lg:col-span-1">
             <h3 className="text-xl font-semibold mb-4">Account</h3>
             <div className="space-y-2">
-              <a href="#" className="block text-gray-300 hover:text-white transition-colors">
+              <a href="/profilePage" className="block text-gray-300 hover:text-white transition-colors">
                 My Account
               </a>
-              <a href="#" className="block text-gray-300 hover:text-white transition-colors">
+              <a href="/auth/login" className="block text-gray-300 hover:text-white transition-colors">
                 Login / Register
               </a>
-              <a href="#" className="block text-gray-300 hover:text-white transition-colors">
+              <a href="/cart" className="block text-gray-300 hover:text-white transition-colors">
                 Cart
               </a>
             </div>
@@ -71,13 +71,13 @@ export const Footer = () => {
           <div className="lg:col-span-1">
             <h3 className="text-xl font-semibold mb-4">Quick Link</h3>
             <div className="space-y-2">
-              <a href="#" className="block text-gray-300 hover:text-white transition-colors">
+              <a href="/privecyPolicy" className="block text-gray-300 hover:text-white transition-colors">
                 Privacy Policy
               </a>
-              <a href="#" className="block text-gray-300 hover:text-white transition-colors">
+              <a href="/termsAndCondition" className="block text-gray-300 hover:text-white transition-colors">
                 Terms of Service
               </a>
-              <a href="#" className="block text-gray-300 hover:text-white transition-colors">
+              <a href="/faq" className="block text-gray-300 hover:text-white transition-colors">
                 FAQ
               </a>
             </div>

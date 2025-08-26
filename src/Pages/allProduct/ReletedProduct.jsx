@@ -28,7 +28,7 @@ const ReletedProduct = () => {
           discountPrice: 20000,
           percent:"50% Off",
           save: 10000,
-          link: "/products/tshirts",
+          link: "/allProduct",
         },
           {
           title: "Canvas Cotton Hudi",
@@ -37,7 +37,7 @@ const ReletedProduct = () => {
           discountPrice: 20000,
           percent:"50% Off",
           save: 10000,
-          link: "/products/tshirts",
+          link: "/allProduct",
         },
           {
           title: "Canvas Cotton Hudi",
@@ -46,7 +46,7 @@ const ReletedProduct = () => {
           discountPrice: 20000,
           percent:"50% Off",
           save: 10000,
-          link: "/products/tshirts",
+          link: "/allProduct",
         },
          {
           title: "Canvas Cotton Hudi",
@@ -55,7 +55,7 @@ const ReletedProduct = () => {
           discountPrice: 20000,
           percent:"50% Off",
           save: 10000,
-          link: "/products/tshirts",
+          link: "/allProduct",
         },
           {
           title: "Canvas Cotton Hudi",
@@ -64,7 +64,7 @@ const ReletedProduct = () => {
           discountPrice: 20000,
           percent:"50% Off",
           save: 10000,
-          link: "/products/tshirts",
+          link: "/allProduct",
         },
          {
           title: "Canvas Cotton Hudi",
@@ -73,7 +73,7 @@ const ReletedProduct = () => {
           discountPrice: 20000,
           percent:"50% Off",
           save: 10000,
-          link: "/products/tshirts",
+          link: "/allProduct",
         },
           {
           title: "Canvas Cotton Hudi",
@@ -82,7 +82,7 @@ const ReletedProduct = () => {
           discountPrice: 20000,
           percent:"50% Off",
           save: 10000,
-          link: "/products/tshirts",
+          link: "/allProduct",
         },
       ];
   return (
