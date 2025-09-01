@@ -32,6 +32,7 @@ import IndividualDetails from "../Pages/allProduct/IndividualDetails";
 import Faq from "../Pages/setting/Faq";
 import PrivecyAndPolicy from "../Pages/setting/PrivecyAndPolicy";
 import TermsAndCondition from "../Pages/setting/TermsAndCondition";
+import Testing from "../Pages/allProduct/Testing";
 
 
 
@@ -64,11 +65,15 @@ export const router = createBrowserRouter([
                 path: '/allProduct',
                 element: <AllProduct></AllProduct>
             },
+            
                {
                 path: '/allProduct/productDetails',
                 element: <ProductDetails></ProductDetails>
             },
-
+ {
+                path: '/test',
+                element: <Testing></Testing>
+            },
              {
                 path: '/allProduct/productDetails/design',
                 element: <DesignPage></DesignPage>
