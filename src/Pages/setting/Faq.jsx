@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import cover from "../../assets/Home/cover.png";
+import { useGetFaqQuery } from "../redux/api/metaApi";
 const Faq = () => {
+  const {data:faqData} = useGetFaqQuery()
   const [openIndex, setOpenIndex] = useState(null);
 
   const faqs = [
