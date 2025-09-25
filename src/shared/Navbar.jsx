@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Search, ShoppingCart, User, ChevronDown, Menu } from "lucide-react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Drawer } from "antd";
 import logo from "../assets/logo.png";
 import { FaTwitter, FaYoutube } from "react-icons/fa";
@@ -10,6 +10,7 @@ import { RiInstagramFill } from "react-icons/ri";
 export const Navbar = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const navigate = useNavigate();
   const location = useLocation();
 
   const navItems = [
@@ -152,15 +153,28 @@ export const Navbar = () => {
 
             {/* Search (Desktop) */}
             <div className="hidden md:flex flex-1 max-w-2xl mx-8">
+              
               <div className="relative w-full">
-                <input
-                  type="text"
+             <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const searchInput = e.target.elements.searchInput;
+              const query = searchInput.value.trim();
+              if (query) {
+                navigate(`/allProduct?search=${encodeURIComponent(query)}`);
+              }
+            }}
+          >
+                 <input
+                   type="text"
+                    name="searchInput"
                   placeholder="Search for anything..."
                   className="w-full pl-4 pr-12 py-2 border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-transparent rounded-md"
                 />
-                <button className="absolute right-2 top-2">
+                <button     type="submit" className="absolute right-2 top-2">
                   <Search className="w-5 h-5 text-gray-600" />
                 </button>
+                </form>
               </div>
             </div>
 
@@ -180,16 +194,20 @@ export const Navbar = () => {
               </NavLink>
             </div>
             <div className="block lg:hidden">
-                <div className="flex gap-3">
-                  <Link to={'/cart'}><div className="relative cursor-pointer">
+              <div className="flex gap-3">
+                <Link to={"/cart"}>
+                  <div className="relative cursor-pointer">
                     <ShoppingCart className="w-6 h-6 text-white" />
                     <span className="absolute -top-2 -right-2 bg-white text-black text-xs min-w-[20px] h-5 flex items-center justify-center rounded-full">
                       5
                     </span>
-                  </div></Link>
-                  <Link to={'/profilePage'}><User className="w-6 h-6 text-white cursor-pointer" /></Link>
-                </div>
+                  </div>
+                </Link>
+                <Link to={"/profilePage"}>
+                  <User className="w-6 h-6 text-white cursor-pointer" />
+                </Link>
               </div>
+            </div>
           </div>
         </div>
 
@@ -231,13 +249,17 @@ export const Navbar = () => {
               </div>
               <div className="hidden lg:block">
                 <div className="flex gap-3">
-                  <Link to={'/cart'}><div className="relative cursor-pointer">
-                    <ShoppingCart className="w-6 h-6 text-black" />
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs min-w-[20px] h-5 flex items-center justify-center rounded-full">
-                      5
-                    </span>
-                  </div></Link>
-                  <Link to={'/profilePage'}><User className="w-6 h-6 text-black cursor-pointer" /></Link>
+                  <Link to={"/cart"}>
+                    <div className="relative cursor-pointer">
+                      <ShoppingCart className="w-6 h-6 text-black" />
+                      <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs min-w-[20px] h-5 flex items-center justify-center rounded-full">
+                        5
+                      </span>
+                    </div>
+                  </Link>
+                  <Link to={"/profilePage"}>
+                    <User className="w-6 h-6 text-black cursor-pointer" />
+                  </Link>
                 </div>
               </div>
             </nav>
@@ -257,16 +279,28 @@ export const Navbar = () => {
       >
         {/* Search */}
         <div className="mb-4">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full pl-4 pr-12 py-2 border border-gray-300 focus:ring-2 focus:ring-red-500 rounded-md"
-            />
-            <button className="absolute right-2 top-2">
-              <Search className="w-5 h-5 text-black" />
-            </button>
-          </div>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const searchInput = e.target.elements.searchInput;
+              const query = searchInput.value.trim();
+              if (query) {
+                navigate(`/allProduct?search=${encodeURIComponent(query)}`);
+              }
+            }}
+          >
+            <div className="relative">
+              <input
+                type="text"
+                name="searchInput"
+                placeholder="Search..."
+                className="w-full pl-4 pr-12 py-2 border border-gray-300 focus:ring-2 focus:ring-red-500 rounded-md"
+              />
+              <button type="submit" className="absolute right-2 top-2">
+                <Search className="w-5 h-5 text-black" />
+              </button>
+            </div>
+          </form>
         </div>
 
         {/* Drawer Nav Items */}

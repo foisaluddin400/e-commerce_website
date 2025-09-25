@@ -11,7 +11,7 @@ export const Root = () => {
         <Navbar />
 
         {/* Main content */}
-        <div className="flex-grow">
+        <div className="flex-grow bg-gray-50">
           <Outlet />
         </div>
 

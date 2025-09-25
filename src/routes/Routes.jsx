@@ -32,6 +32,7 @@ import PrivecyAndPolicy from "../Pages/setting/PrivecyAndPolicy";
 import TermsAndCondition from "../Pages/setting/TermsAndCondition";
 import Testing from "../Pages/allProduct/Testing";
 import BlogDetails from "../Pages/BlogPage/BlogDetails";
+import AllCategory from "../Pages/category/AllCategory";
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
       {
         path: "/individual_product",
         element: <IndividualProduct></IndividualProduct>,
+      },
+         {
+        path: "/all-category",
+        element: <AllCategory></AllCategory>
       },
       {
         path: "/individual_product/details",
@@ -64,7 +69,7 @@ export const router = createBrowserRouter([
       },
 
       {
-        path: "/allProduct/productDetails",
+        path: "/allProduct/productDetails/:id",
         element: <ProductDetails></ProductDetails>,
       },
       {

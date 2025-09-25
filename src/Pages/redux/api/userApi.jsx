@@ -1,6 +1,5 @@
 import { baseApi } from "./baseApi";
 
-
 const useApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     loginAdmin: builder.mutation({
@@ -12,7 +11,17 @@ const useApi = baseApi.injectEndpoints({
         };
       },
     }),
-    
+
+    registerLogin: builder.mutation({
+      query: (data) => {
+        return {
+          url: "/auth/signup",
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
+
     getProfile: builder.query({
       query: () => {
         return {
@@ -74,7 +83,6 @@ const useApi = baseApi.injectEndpoints({
           url: `/dashboard/get-all-user?role=${user}&page=${page}&searchTerm=${search}`,
           method: "GET",
         };
-
       },
       providesTags: ["host"],
     }),
@@ -85,7 +93,7 @@ const useApi = baseApi.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
-      invalidatesTags: ["host"], 
+      invalidatesTags: ["host"],
     }),
   }),
 });
@@ -100,4 +108,5 @@ export const {
   useChangePasswordMutation,
   useGetHostUserQuery,
   useBlockUserHostMutation,
+  useRegisterLoginMutation
 } = useApi;

@@ -91,11 +91,21 @@ const AccessoryGift = () => {
   return (
     <div className="">
       {/* Title */}
-      <div className=" mb-8">
-        <h1 className="text-4xl text-center pb-4 pt-20">
-          Custom T-shirts & Accessories & Gifts
-        </h1>
-        <div className="text-primary text-end ">Sell All</div>
+      <div className="flex justify-between items-center mt-20 mb-6">
+        <div className="flex items-center ">
+          <div className="w-[5px] h-12 rounded-r bg-primary mr-4 "></div>
+          <div>
+            <h2 className="text-2xl font-semibold ">Product</h2>
+            <p className="text-gray-600 text-sm md:block hidden">
+              Discover top opportunities curated for entrepreneurs.
+            </p>
+          </div>
+        </div>
+        <div>
+          <Link to={"/all-category"}>
+            <h1 className="text-primary">View All</h1>
+          </Link>
+        </div>
       </div>
 
       {/* Products Grid */}
@@ -103,7 +113,7 @@ const AccessoryGift = () => {
         {products.map((item) => (
           <div
             key={item.id}
-            className="relative border rounded-lg p-4 hover:shadow-lg transition group"
+            className="relative border bg-white rounded-lg p-4 hover:shadow-lg transition group"
           >
             {/* Discount Badge */}
             <span className="absolute top-2 left-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded">
@@ -121,14 +131,15 @@ const AccessoryGift = () => {
             </div>
 
             {/* Image */}
-           <Link to={'/allProduct/productDetails'}>
-            <div className="flex justify-center mb-4">
-              <img
-                src={item.img}
-                alt={item.name}
-                className="w-32 h-32 object-contain"
-              />
-            </div></Link>
+            <Link to={"/allProduct/productDetails"}>
+              <div className="flex justify-center mb-4">
+                <img
+                  src={item.img}
+                  alt={item.name}
+                  className="w-32 h-32 object-contain"
+                />
+              </div>
+            </Link>
             <button className="bg-red-500 text-white w-full py-2 mt-3 rounded hover:bg-red-600 opacity-0 group-hover:opacity-100 transition">
               Add To Cart
             </button>
@@ -159,8 +170,6 @@ const AccessoryGift = () => {
               ))}
               <span className="text-gray-500 ml-2">({item.reviews})</span>
             </div>
-
-         
           </div>
         ))}
       </div>

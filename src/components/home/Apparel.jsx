@@ -4,8 +4,12 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
 import shirt from "../../assets/Home/shirt.png";
 import tshirt from "../../assets/Home/shirt1.png";
+import { useGetCategoryQuery } from "../../Pages/redux/api/categoryApi";
+import { imageUrl } from "../../Pages/redux/api/baseApi";
+import { Link } from "react-router-dom";
 
 const Apparel = () => {
+  const { data: category } = useGetCategoryQuery();
   const splideRef = useRef(null);
 
   const handlePrevClick = () => {
@@ -20,80 +24,28 @@ const Apparel = () => {
     }
   };
 
-  // Static category object
-  const categories = [
-    {
-      title: "Canvas Cotton Hudi",
-      img: tshirt,
-      price: 32000,
-      discountPrice: 20000,
-      percent:"50% Off",
-      save: 10000,
-      link: "/allProduct/productDetails",
-    },
-      {
-      title: "Canvas Cotton Hudi",
-      img: shirt,
-      price: 32000,
-      discountPrice: 20000,
-      percent:"50% Off",
-      save: 10000,
-      link: "/allProduct/productDetails",
-    },
-      {
-      title: "Canvas Cotton Hudi",
-      img: shirt,
-      price: 32000,
-      discountPrice: 20000,
-      percent:"50% Off",
-      save: 10000,
-      link: "/allProduct/productDetails",
-    },
-     {
-      title: "Canvas Cotton Hudi",
-      img: tshirt,
-      price: 32000,
-      discountPrice: 20000,
-      percent:"50% Off",
-      save: 10000,
-      link: "/allProduct/productDetails",
-    },
-      {
-      title: "Canvas Cotton Hudi",
-      img: shirt,
-      price: 32000,
-      discountPrice: 20000,
-      percent:"50% Off",
-      save: 10000,
-      link: "/allProduct/productDetails",
-    },
-     {
-      title: "Canvas Cotton Hudi",
-      img: shirt,
-      price: 32000,
-      discountPrice: 20000,
-      percent:"50% Off",
-      save: 10000,
-      link: "/allProduct/productDetails",
-    },
-      {
-      title: "Canvas Cotton Hudi",
-      img: tshirt,
-      price: 32000,
-      discountPrice: 20000,
-      percent:"50% Off",
-      save: 10000,
-      link: "/allProduct/productDetails",
-    },
-  ];
+
 
   return (
     <div className="mb-11">
       <div className="">
         <div className="">
-          <h1 className="text-4xl text-center pb-4 pt-20">
-            Custom T-shirts & Custom Apparel
-          </h1>
+          <div className="flex justify-between items-center mt-20 mb-6">
+            <div className="flex items-center ">
+              <div className="w-[5px] h-12 rounded-r bg-primary mr-4 "></div>
+              <div>
+                <h2 className="text-2xl font-semibold ">Category</h2>
+                <p className="text-gray-600 text-sm md:block hidden">
+                  Discover top opportunities curated for entrepreneurs.
+                </p>
+              </div>
+            </div>
+            <div>
+              <Link to={"/all-category"}>
+                <h1 className="text-primary">View All</h1>
+              </Link>
+            </div>
+          </div>
           <div className="flex justify-end gap-6  mb-4">
             <div onClick={handlePrevClick}>
               <div className="     text-black cursor-pointer">
@@ -112,7 +64,7 @@ const Apparel = () => {
           ref={splideRef}
           options={{
             type: "loop",
-            perPage: 5,
+            perPage: 6,
             gap: "1rem",
             arrows: false,
             pagination: false,
@@ -124,33 +76,24 @@ const Apparel = () => {
           }}
           aria-label="Category Slide"
         >
-          {categories.map((item, index) => (
+          {category?.data?.slice(0, 8)?.map((item, index) => (
             <SplideSlide key={index}>
-              <div className="border rounded-3xl">
-                <a href={item.link}>
-                  <div className="bg-light flex items-center justify-center rounded-t-3xl w-full h-[250px]">
-                    <img
-                      className="w-[150px]"
-                      height={120}
-                      width={200}
-                      src={item.img}
-                      alt={item.title}
-                    />
+              <div className="">
+                <Link to={`/allProduct?category=${item._id}`}>
+                  <div className="flex justify-center">
+                    <div className="bg-white border rounded-lg flex items-center justify-center w-[180px] h-[180px]">
+                      <img
+                        className="w-[110px] h-[110px]"
+                        src={`${imageUrl}${item?.imageUrl}`}
+                        alt={item.name}
+                      />
+                    </div>
                   </div>
-                  <button className="absolute top-0 right-0 bg-primary px-2 text-white rounded-tr-3xl rounded-bl-3xl text-xl py-4">{item?.percent}</button>
-                </a>
-                <div className="p-3">
-                  <h1 className="pt-2 text-xl border-b pb-3">
-                    <h1>{item.title} </h1>
-                    <h1 className="pt-2">
-                      ${item.price}{" "}
-                      <span className="line-through text-lg pl-2">
-                        ${item?.discountPrice}
-                      </span>{" "}
-                    </h1>
-                  </h1>
-                  <h1 className="pt-2 text-xl">Save - {item?.save}</h1>
-                </div>
+                </Link>
+
+                <h1 className="p-2 text-center text-xl ">
+                  <h1>{item.name} </h1>
+                </h1>
               </div>
             </SplideSlide>
           ))}

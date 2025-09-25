@@ -1,15 +1,36 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button, Checkbox, message } from "antd";
 import { FaEye, FaEyeSlash, FaGoogle, FaFacebookF } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useLoginAdminMutation } from "../Pages/redux/api/userApi";
+import { useDispatch } from "react-redux";
+import { SiBasicattentiontoken } from "react-icons/si";
 
 export const Login = () => {
   const [form] = Form.useForm();
+    const navigate = useNavigate();
+  const [loginUser] = useLoginAdminMutation()
+   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const onFinish = (values) => {
-    console.log("Form Values:", values);
+  const onFinish = async (values) => {
+    console.log(values);
+    try {
+      const payload = await loginUser(values).unwrap();
+      console.log(payload);
+      if (payload) {
+        dispatch(SiBasicattentiontoken(payload?.data?.accessToken));
+        message.success(payload?.message);
+        navigate("/");
+      } else {
+        message.error(payload?.message );
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      message.error(error?.data?.message || "Server is down");
+    } finally {
+    }
   };
 
   return (

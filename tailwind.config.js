@@ -1,4 +1,3 @@
-/** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./index.html",
@@ -12,6 +11,9 @@ export default {
         danger: "#F44336",
         light: "#F2F4F5",
         dark: "#1D3557",
+      },
+      fontFamily: {
+      poppins: ["Poppins", "sans-serif"],
       },
     },
   },

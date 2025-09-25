@@ -1,7 +1,10 @@
-import React, { useState, useRef } from "react";
-import { Rnd } from "react-rnd";
-import { Upload, Type, Palette, X, Eye, RotateCcw } from "lucide-react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Font from "./Font";
+import UploadPhoto from "./UploadPhoto";
+import DesignPart from "./DesignPart";
+import IconsPanel from "./IconsPanel";
+import { Eye, RotateCcw } from "lucide-react";
 
 export default function TShirtDesigner() {
   const [activeTab, setActiveTab] = useState("uploads");
@@ -24,14 +27,14 @@ export default function TShirtDesigner() {
       outlineColor: "#000000",
       outlineThickness: 1,
       textShape: "normal",
+      width: null,
+      height: null,
     },
   ]);
+  const [icons, setIcons] = useState([]); // New state for icons
   const [selectedTextId, setSelectedTextId] = useState(1);
-  const textRef = useRef(null);
 
-  // Image upload
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
+  const handleImageUpload = (file) => {
     if (file) {
       setUploadedImage(URL.createObjectURL(file));
     }
@@ -60,6 +63,8 @@ export default function TShirtDesigner() {
         outlineColor: "#000000",
         outlineThickness: 1,
         textShape: "normal",
+        width: null,
+        height: null,
       },
     ]);
     setSelectedTextId(newId);
@@ -71,76 +76,36 @@ export default function TShirtDesigner() {
       setSelectedTextId(texts[0].id);
   };
 
-  const startRotate = (e, id) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const rect = textRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-
-    const onMouseMove = (moveEvent) => {
-      const dx = moveEvent.clientX - centerX;
-      const dy = moveEvent.clientY - centerY;
-      const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-      updateText(id, { rotation: angle });
-    };
-
-    const onMouseUp = () => {
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseup", onMouseUp);
-    };
-
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", onMouseUp);
+  const addIcon = (iconName) => {
+    const newId = icons.length ? Math.max(...icons.map((i) => i.id)) + 1 : 1;
+    setIcons([
+      ...icons,
+      {
+        id: newId,
+        name: iconName,
+        x: 100,
+        y: 100,
+        width: 50,
+        height: 50,
+        rotation: 0,
+      },
+    ]);
   };
 
-  const selectedText = texts.find((t) => t.id === selectedTextId);
+  const updateIcon = (id, newProps) => {
+    setIcons(icons.map((i) => (i.id === id ? { ...i, ...newProps } : i)));
+  };
+
+  const removeIcon = (id) => {
+    setIcons(icons.filter((i) => i.id !== id));
+  };
 
   const tabs = [
     { id: "uploads", label: "Uploads" },
     { id: "colors", label: "Colors" },
     { id: "text", label: "Text" },
+    { id: "icons", label: "Icons" }, // New tab for icons
   ];
-
-  const fontOptions = [
-    "Arial",
-    "Avenir Bold Condensed",
-    "Times New Roman",
-    "Helvetica",
-    "Courier New",
-    "Georgia",
-    "Verdana",
-    "Trebuchet MS",
-  ];
-
-  const textShapeOptions = [
-    "normal",
-    "curve",
-    "upward",
-    "cone",
-    "pointed",
-    "bulge",
-    "bridge",
-  ];
-
-  const getShapeDimensions = (text, size, textShape) => {
-    const baseWidth = text.length * size * 0.6;
-    const baseHeight = size + 10;
-    switch (textShape) {
-      case "curve":
-      case "bridge":
-        return { width: baseWidth * 1.5, height: baseHeight * 1.5 }; 
-      case "cone":
-      case "pointed":
-        return { width: baseWidth * 1.2, height: baseHeight * 1.5 }; 
-      case "bulge":
-        return { width: baseWidth * 1.3, height: baseHeight * 1.3 }; 
-      case "upward":
-        return { width: baseWidth, height: baseHeight * 1.2 }; 
-      default:
-        return { width: baseWidth, height: baseHeight };
-    }
-  };
 
   return (
     <div className="flex h-screen container mx-auto">
@@ -163,17 +128,7 @@ export default function TShirtDesigner() {
 
       {/* Panel */}
       <div className="w-80 bg-white border-r border-gray-300 overflow-y-auto p-4">
-        {activeTab === "uploads" && (
-          <div>
-            <h3 className="text-lg font-bold mb-2">Upload Image</h3>
-            <input
-              type="file"
-              onChange={handleImageUpload}
-              className="border p-2 w-full"
-            />
-          </div>
-        )}
-
+        {activeTab === "uploads" && <UploadPhoto onUpload={handleImageUpload} />}
         {activeTab === "colors" && (
           <div>
             <h3 className="text-lg font-bold mb-2">T-shirt Colors</h3>
@@ -202,277 +157,34 @@ export default function TShirtDesigner() {
             </div>
           </div>
         )}
-
-        {activeTab === "text" && selectedText && (
-          <div>
-            <h3 className="text-lg font-bold mb-2">Text Settings</h3>
-            <input
-              type="text"
-              value={selectedText.text}
-              onChange={(e) =>
-                updateText(selectedText.id, { text: e.target.value })
-              }
-              className="border p-2 w-full mb-2"
-              placeholder="Edit Text"
-            />
-            <select
-              value={selectedText.fontFamily}
-              onChange={(e) =>
-                updateText(selectedText.id, { fontFamily: e.target.value })
-              }
-              className="border p-2 w-full mb-2"
-            >
-              {fontOptions.map((font) => (
-                <option key={font} value={font}>
-                  {font}
-                </option>
-              ))}
-            </select>
-            <input
-              type="color"
-              value={selectedText.color}
-              onChange={(e) =>
-                updateText(selectedText.id, { color: e.target.value })
-              }
-              className="w-full h-8 mb-2"
-            />
-            <input
-              type="range"
-              min={0}
-              max={360}
-              value={selectedText.rotation}
-              onChange={(e) =>
-                updateText(selectedText.id, {
-                  rotation: Number(e.target.value),
-                })
-              }
-              className="w-full mb-2"
-            />
-            <input
-              type="color"
-              value={selectedText.outlineColor}
-              onChange={(e) =>
-                updateText(selectedText.id, { outlineColor: e.target.value })
-              }
-              className="w-full h-8 mb-2"
-              placeholder="Outline Color"
-            />
-            <input
-              type="range"
-              min={0}
-              max={5}
-              value={selectedText.outlineThickness}
-              onChange={(e) =>
-                updateText(selectedText.id, {
-                  outlineThickness: Number(e.target.value),
-                })
-              }
-              className="w-full mb-2"
-            />
-            <select
-              value={selectedText.textShape}
-              onChange={(e) =>
-                updateText(selectedText.id, { textShape: e.target.value })
-              }
-              className="border p-2 w-full mb-2"
-            >
-              {textShapeOptions.map((shape) => (
-                <option key={shape} value={shape}>
-                  {shape.charAt(0).toUpperCase() + shape.slice(1)}
-                </option>
-              ))}
-            </select>
-            <input
-              type="range"
-              min={12}
-              max={72}
-              value={selectedText.size}
-              onChange={(e) =>
-                updateText(selectedText.id, { size: Number(e.target.value) })
-              }
-              className="w-full mb-2"
-            />
-            <div className="flex gap-2 mb-2">
-              <button
-                className={`border p-1 ${
-                  selectedText.bold ? "bg-gray-800 text-white" : ""
-                }`}
-                onClick={() =>
-                  updateText(selectedText.id, { bold: !selectedText.bold })
-                }
-              >
-                B
-              </button>
-              <button
-                className={`border p-1 ${
-                  selectedText.italic ? "bg-gray-800 text-white" : ""
-                }`}
-                onClick={() =>
-                  updateText(selectedText.id, { italic: !selectedText.italic })
-                }
-              >
-                I
-              </button>
-              <button
-                className={`border p-1 ${
-                  selectedText.underline ? "bg-gray-800 text-white" : ""
-                }`}
-                onClick={() =>
-                  updateText(selectedText.id, {
-                    underline: !selectedText.underline,
-                  })
-                }
-              >
-                U
-              </button>
-            </div>
-            <button
-              className="border p-2 w-full bg-gray-200 mb-2"
-              onClick={addNewText}
-            >
-              Add New Text
-            </button>
-            <button
-              className="border p-2 w-full bg-red-500 text-white"
-              onClick={() => removeText(selectedText.id)}
-            >
-              Delete Selected Text
-            </button>
-          </div>
+        {activeTab === "text" && (
+          <Font
+            texts={texts}
+            selectedTextId={selectedTextId}
+            updateText={updateText}
+            addNewText={addNewText}
+            removeText={removeText}
+          />
+        )}
+        {activeTab === "icons" && (
+          <IconsPanel
+            onAddIcon={addIcon}
+          />
         )}
       </div>
 
       {/* Canvas */}
-      <div className="flex-1 bg-gray-200 p-8 flex items-center justify-center">
-        <div className="relative w-full h-[90vh] bg-white border-2 border-gray-300">
-          <div
-            className="absolute inset-0"
-            style={{ backgroundColor: tshirtColor }}
-          ></div>
-
-          {uploadedImage && (
-            <Rnd
-              default={{ x: 50, y: 50, width: 100, height: 100 }}
-              bounds="parent"
-            >
-              <img
-                src={uploadedImage}
-                alt="Custom"
-                className="w-full h-full object-contain"
-              />
-            </Rnd>
-          )}
-
-          {texts.map((t) => {
-            const { width, height } = getShapeDimensions(
-              t.text,
-              t.size,
-              t.textShape
-            );
-            return (
-              <Rnd
-                key={t.id}
-                default={{ x: t.x, y: t.y, width, height }}
-                bounds="parent"
-                onDragStop={(e, d) => updateText(t.id, { x: d.x, y: d.y })}
-                onResizeStop={(e, direction, ref, delta, position) => {
-                  updateText(t.id, {
-                    x: position.x,
-                    y: position.y,
-                    width: ref.offsetWidth,
-                    height: ref.offsetHeight,
-                  });
-                }}
-                onClick={() => setSelectedTextId(t.id)}
-              >
-                <div
-                  ref={t.id === selectedTextId ? textRef : null}
-                  style={{
-                    fontSize: t.size,
-                    color: t.color,
-                    fontFamily: t.fontFamily,
-                    fontWeight: t.bold ? "bold" : "normal",
-                    fontStyle: t.italic ? "italic" : "normal",
-                    textDecoration: t.underline ? "underline" : "none",
-                    textAlign: "center",
-                    WebkitTextStroke: `${t.outlineThickness}px ${t.outlineColor}`,
-                    userSelect: "none",
-                    cursor: "move",
-                    transform: `rotate(${t.rotation}deg)`,
-                    position: "relative",
-                    width: "100%",
-                    height: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    overflow: "visible", 
-                  }}
-                >
-                  <span
-                    style={{
-                      display: "block",
-                      ...(t.textShape === "curve" && {
-                        position: "relative",
-                        width: "100%",
-                        height: "100%",
-                        borderRadius: "50% / 50%",
-                        transform: "scaleX(1.5) translateY(-30%)",
-                        whiteSpace: "nowrap",
-                        overflow: "visible",
-                      }),
-                      ...(t.textShape === "upward" && {
-                        transform: `rotate(${t.rotation}deg) scaleY(-1)`,
-                      }),
-                      ...(t.textShape === "cone" && {
-                        clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)",
-                        width: "100%",
-                        height: "100%",
-                      }),
-                      ...(t.textShape === "pointed" && {
-                        clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)",
-                        width: "100%",
-                        height: "100%",
-                      }),
-                      ...(t.textShape === "bulge" && {
-                        borderRadius: "50%",
-                        padding: "5px",
-                        width: "100%",
-                        height: "100%",
-                      }),
-                      ...(t.textShape === "bridge" && {
-                        position: "relative",
-                        width: "100%",
-                        height: "100%",
-                        borderRadius: "50% / 20%",
-                        transform: `rotate(${t.rotation}deg) perspective(500px) rotateX(20deg)`,
-                        overflow: "visible",
-                      }),
-                    }}
-                  >
-                    {t.text}
-                  </span>
-                  {t.id === selectedTextId && (
-                    <div
-                      onMouseDown={(e) => startRotate(e, t.id)}
-                      style={{
-                        width: 12,
-                        height: 12,
-                        borderRadius: "50%",
-                        background: "red",
-                        position: "absolute",
-                        top: -20,
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        cursor: "grab",
-                      }}
-                    />
-                  )}
-                </div>
-              </Rnd>
-            );
-          })}
-        </div>
-      </div>
+      <DesignPart
+        tshirtColor={tshirtColor}
+        uploadedImage={uploadedImage}
+        texts={texts}
+        icons={icons}
+        selectedTextId={selectedTextId}
+        setSelectedTextId={setSelectedTextId}
+        updateText={updateText}
+        updateIcon={updateIcon}
+        removeIcon={removeIcon}
+      />
 
       {/* Product Preview */}
       <div className="w-80 bg-white border-l border-gray-300 p-6">

@@ -3,16 +3,16 @@ import { baseApi } from "./baseApi";
 const category = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getCategory: builder.query({
-      query: ({limit,page}) => {
+      query: () => {
         return {
-          url: `/categories?limit=${limit}&page=${page}`,
+          url: `/categories`,
           method: "GET",
         };
       },
       providesTags: ["updateProfile"],
     }),
 
-     getAllCategory: builder.query({
+    getAllCategory: builder.query({
       query: ({ page, limit, search }) => {
         return {
           url: `/categories?search=${search}&page=${page}&limit=${limit}`,
@@ -21,7 +21,15 @@ const category = baseApi.injectEndpoints({
       },
       providesTags: ["updateProfile"],
     }),
-
+    getBrandsName: builder.query({
+      query: () => {
+        return {
+          url: `/brands`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
     deleteCategories: builder.mutation({
       query: (id) => {
         return {
@@ -54,9 +62,9 @@ const category = baseApi.injectEndpoints({
     }),
 
     getsubCategory: builder.query({
-      query: ({ page, limit, search }) => {
+      query: () => {
         return {
-          url: `/subcategories?search=${search}&page=${page}&limit=${limit}`,
+          url: `/subcategories`,
           method: "GET",
         };
       },
@@ -95,9 +103,9 @@ const category = baseApi.injectEndpoints({
     }),
 
     getSize: builder.query({
-      query: ({page, limit, search}) => {
+      query: () => {
         return {
-          url: `/sizes?search=${search}&page=${page}&limit=${limit}`,
+          url: `/sizes`,
           method: "GET",
         };
       },
@@ -137,9 +145,9 @@ const category = baseApi.injectEndpoints({
     }),
 
     getColor: builder.query({
-      query: ({page, limit, search}) => {
+      query: () => {
         return {
-          url: `/colors?search=${search}&page=${page}&limit=${limit}`,
+          url: `/colors`,
           method: "GET",
         };
       },
@@ -178,6 +186,15 @@ const category = baseApi.injectEndpoints({
       invalidatesTags: ["updateProfile"],
     }),
 
+    getBrands: builder.query({
+      query: () => {
+        return {
+          url: `/brands`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
     //     getUser: builder.query({
     //       query: () => {
     //         return {
@@ -350,5 +367,7 @@ export const {
   useAddsubCategoryMutation,
   useDeletesubCategoriesMutation,
   useUpdatesubCategoryMutation,
-  useGetAllCategoryQuery
+  useGetAllCategoryQuery,
+  useGetBrandsNameQuery,
+  useGetBrandsQuery
 } = category;

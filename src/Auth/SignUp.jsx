@@ -1,16 +1,38 @@
 import React, { useState } from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { FaEye, FaEyeSlash, FaGoogle, FaFacebookF } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useRegisterLoginMutation } from "../Pages/redux/api/userApi";
 
 export const SignUp = () => {
   const [form] = Form.useForm();
+   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const[registerLogin]=useRegisterLoginMutation()
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const onFinish = (values) => {
-    console.log("Form Values:", values);
-  
+  const onFinish = async (values) => {
+    console.log(values);
+    const data = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      password: values.password,}
+    try {
+      const payload = await registerLogin(data).unwrap();
+      console.log(payload);
+      if (payload) {
+      
+        message.success(payload?.message);
+        navigate("/auth/login");
+      } else {
+        message.error(payload?.message );
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      message.error(error?.data?.message || "Server is down");
+    } finally {
+    }
   };
 
   return (
@@ -26,6 +48,32 @@ export const SignUp = () => {
 
         {/* Ant Design Form */}
         <Form form={form} layout="vertical" onFinish={onFinish}>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+             <Form.Item
+
+            label="Enter First Name"
+            name="firstName"
+            rules={[
+              { required: true, message: "Please Enter First Name!" },
+           
+            ]}
+          >
+            <Input style={{height:'50px'}} placeholder="Enter First Name" />
+          </Form.Item>
+
+           <Form.Item
+
+            label="Enter Last Name"
+            name="lastName"
+            rules={[
+              { required: true, message: "Please enter Enter Last Name!" },
+           
+            ]}
+          >
+            <Input style={{height:'50px'}} placeholder="Enter Enter Last Name" />
+          </Form.Item>
+          </div>
           {/* Email */}
           <Form.Item
 
@@ -133,14 +181,7 @@ export const SignUp = () => {
           <FaGoogle className="text-red-500 mr-2" /> Continue With Google
         </Button>
 
-        {/* Facebook */}
-        <Button
-        style={{height:'50px'}}
-          block
-          className="flex items-center justify-center border border-gray-300"
-        >
-          <FaFacebookF className="text-blue-600 mr-2" /> Continue With Facebook
-        </Button>
+ 
 
         {/* Sign In Link */}
         <p className="text-center text-sm text-gray-600 mt-6">
