@@ -27,7 +27,10 @@ const DrawingControls = ({ canvas, selectedTool, setSelectedTool }) => {
     }
 
     let brush;
-    if (brushType === "hline") {
+    if (brushType === "erase") {
+      brush = new fabric.EraserBrush(canvas);
+      brush.width = parseInt(drawingLineWidth, 10) || 1; // Use same line width for eraser
+    } else if (brushType === "hline") {
       brush = new fabric.PatternBrush(canvas);
       brush.getPatternSrc = function () {
         const patternCanvas = document.createElement("canvas");
@@ -94,15 +97,17 @@ const DrawingControls = ({ canvas, selectedTool, setSelectedTool }) => {
 
     if (brush) {
       canvas.freeDrawingBrush = brush;
-      canvas.freeDrawingBrush.color = drawingColor;
+      if (brushType !== "erase") {
+        canvas.freeDrawingBrush.color = drawingColor;
+        canvas.freeDrawingBrush.shadow = new fabric.Shadow({
+          blur: parseInt(drawingShadowWidth, 10) || 0,
+          offsetX: parseInt(drawingShadowOffset, 10) || 0,
+          offsetY: parseInt(drawingShadowOffset, 10) || 0,
+          affectStroke: true,
+          color: drawingShadowColor,
+        });
+      }
       canvas.freeDrawingBrush.width = parseInt(drawingLineWidth, 10) || 1;
-      canvas.freeDrawingBrush.shadow = new fabric.Shadow({
-        blur: parseInt(drawingShadowWidth, 10) || 0,
-        offsetX: parseInt(drawingShadowOffset, 10) || 0,
-        offsetY: parseInt(drawingShadowOffset, 10) || 0,
-        affectStroke: true,
-        color: drawingShadowColor,
-      });
       canvas.renderAll();
     }
   };
@@ -118,6 +123,9 @@ const DrawingControls = ({ canvas, selectedTool, setSelectedTool }) => {
     setIsDrawingMode(canvas.isDrawingMode);
     if (!canvas.isDrawingMode) {
       setSelectedTool(null);
+      setDrawingBrushType("Pencil"); // Reset to Pencil when exiting drawing mode
+    } else {
+      setupBrush(drawingBrushType); // Reapply brush settings when entering drawing mode
     }
     canvas.renderAll();
     console.log("Drawing mode:", canvas.isDrawingMode);
@@ -135,6 +143,7 @@ const DrawingControls = ({ canvas, selectedTool, setSelectedTool }) => {
     canvas.isDrawingMode = false;
     setIsDrawingMode(false);
     setSelectedTool(null);
+    setDrawingBrushType("Pencil"); // Reset to Pencil after clearing
     canvas.renderAll();
   };
 
@@ -161,6 +170,7 @@ const DrawingControls = ({ canvas, selectedTool, setSelectedTool }) => {
           <option value="vline">Vertical Line</option>
           <option value="square">Square</option>
           <option value="diamond">Diamond</option>
+          <option value="erase">Erase</option>
         </select>
       </div>
       <div className="grid grid-cols-2 gap-2 border p-2">
@@ -171,12 +181,13 @@ const DrawingControls = ({ canvas, selectedTool, setSelectedTool }) => {
             value={drawingColor}
             onChange={(e) => {
               setDrawingColor(e.target.value);
-              if (canvas && canvas.freeDrawingBrush) {
+              if (canvas && canvas.freeDrawingBrush && drawingBrushType !== "erase") {
                 canvas.freeDrawingBrush.color = e.target.value;
                 canvas.renderAll();
               }
             }}
-            className="border p-1 mt-1 w-full"
+            disabled={drawingBrushType === "erase"}
+            className="border p-1 mt-1 w-full disabled:opacity-50"
           />
         </div>
         <div>
@@ -186,12 +197,13 @@ const DrawingControls = ({ canvas, selectedTool, setSelectedTool }) => {
             value={drawingShadowColor}
             onChange={(e) => {
               setDrawingShadowColor(e.target.value);
-              if (canvas && canvas.freeDrawingBrush) {
+              if (canvas && canvas.freeDrawingBrush && drawingBrushType !== "erase") {
                 canvas.freeDrawingBrush.shadow.color = e.target.value;
                 canvas.renderAll();
               }
             }}
-            className="border p-1 mt-1 w-full"
+            disabled={drawingBrushType === "erase"}
+            className="border p-1 mt-1 w-full disabled:opacity-50"
           />
         </div>
       </div>
@@ -225,12 +237,13 @@ const DrawingControls = ({ canvas, selectedTool, setSelectedTool }) => {
               onChange={(e) => {
                 const value = parseInt(e.target.value, 10) || 0;
                 setDrawingShadowWidth(value);
-                if (canvas && canvas.freeDrawingBrush) {
+                if (canvas && canvas.freeDrawingBrush && drawingBrushType !== "erase") {
                   canvas.freeDrawingBrush.shadow.blur = value;
                   canvas.renderAll();
                 }
               }}
-              className="w-full mt-1"
+              disabled={drawingBrushType === "erase"}
+              className="w-full mt-1 disabled:opacity-50"
             />
           </div>
           <div>
@@ -243,13 +256,14 @@ const DrawingControls = ({ canvas, selectedTool, setSelectedTool }) => {
               onChange={(e) => {
                 const value = parseInt(e.target.value, 10) || 0;
                 setDrawingShadowOffset(value);
-                if (canvas && canvas.freeDrawingBrush) {
+                if (canvas && canvas.freeDrawingBrush && drawingBrushType !== "erase") {
                   canvas.freeDrawingBrush.shadow.offsetX = value;
                   canvas.freeDrawingBrush.shadow.offsetY = value;
                   canvas.renderAll();
                 }
               }}
-              className="w-full mt-1"
+              disabled={drawingBrushType === "erase"}
+              className="w-full mt-1 disabled:opacity-50"
             />
           </div>
         </div>
