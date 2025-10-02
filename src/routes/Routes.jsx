@@ -33,6 +33,7 @@ import TermsAndCondition from "../Pages/setting/TermsAndCondition";
 import Testing from "../Pages/allProduct/Testing";
 import BlogDetails from "../Pages/BlogPage/BlogDetails";
 import AllCategory from "../Pages/category/AllCategory";
+import AllSubCategory from "../Pages/category/AllSubCategory";
 
 export const router = createBrowserRouter([
   {
@@ -67,6 +68,10 @@ export const router = createBrowserRouter([
         path: "/allProduct",
         element: <AllProduct></AllProduct>,
       },
+  {
+        path: "/category/subCategory/:id",
+        element: <AllSubCategory></AllSubCategory>
+      },
 
       {
         path: "/allProduct/productDetails/:id",
@@ -77,7 +82,7 @@ export const router = createBrowserRouter([
         element: <Testing></Testing>,
       },
       {
-        path: "/allProduct/productDetails/design",
+        path: "/allProduct/productDetails/design/:id",
         element: <DesignPage></DesignPage>,
       },
       {

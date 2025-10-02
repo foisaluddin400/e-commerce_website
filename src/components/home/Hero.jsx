@@ -59,7 +59,7 @@ const Hero = () => {
               options={{
                 type: "loop",
                 autoplay: true,
-                interval: 3000,
+                interval: 5000,
                 arrows: false,
                 pagination: false,
               }}

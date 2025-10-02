@@ -2,6 +2,7 @@
 import { Link } from "react-router-dom";
 import img2 from "../../assets/Home/shirt.png";
 import img3 from "../../assets/Home/shirt1.png";
+import { useSelector } from "react-redux";
 
 const products = [
   {
@@ -36,6 +37,8 @@ const products = [
   },
 ];
 const IndividualProduct = () => {
+  const { frontPreview, backPreview } = useSelector((state) => state.design);
+  console.log("SaveDesign Previews:", { frontPreview, backPreview });
   return (
      <div className="container mx-auto px-4 lg:px-0">
         <main className=" py-8">

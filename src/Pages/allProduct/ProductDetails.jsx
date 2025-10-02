@@ -10,8 +10,11 @@ import { imageUrl } from "../redux/api/baseApi";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const { data: singleProductData, isLoading, isError } =
-    useGetSingleProductQuery({ id });
+  const {
+    data: singleProductData,
+    isLoading,
+    isError,
+  } = useGetSingleProductQuery({ id });
   const splideRef = useRef(null);
 
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
@@ -23,6 +26,7 @@ const ProductDetails = () => {
   if (!singleProductData?.data) return <p>No product found</p>;
 
   const product = singleProductData.data;
+  console.log(product);
   const variants = product.variants || [];
   const selectedVariant = variants[selectedVariantIndex] || {};
 
@@ -169,11 +173,11 @@ const ProductDetails = () => {
 
           {/* Buttons */}
           <div className="flex gap-4 mb-6">
-            <Link to={"/allProduct/productDetails/design"}>
+            <a href={`/allProduct/productDetails/design/${product?._id}`}>
               <button className="bg-primary hover:bg-red-600 text-white px-8 py-3 rounded font-medium">
                 START DESIGNING →
               </button>
-            </Link>
+            </a>
           </div>
 
           {/* Short Description */}

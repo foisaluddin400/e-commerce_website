@@ -11,6 +11,15 @@ const category = baseApi.injectEndpoints({
       },
       providesTags: ["updateProfile"],
     }),
+  getSingleCategory: builder.query({
+      query: ({ id }) => {
+        return {
+          url: `/categories/${id}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
 
     getAllCategory: builder.query({
       query: ({ page, limit, search }) => {
@@ -369,5 +378,6 @@ export const {
   useUpdatesubCategoryMutation,
   useGetAllCategoryQuery,
   useGetBrandsNameQuery,
-  useGetBrandsQuery
+  useGetBrandsQuery,
+  useGetSingleCategoryQuery
 } = category;

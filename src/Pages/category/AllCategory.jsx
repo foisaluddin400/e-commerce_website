@@ -6,7 +6,7 @@ import { useGetCategoryQuery } from "../redux/api/categoryApi";
 import { imageUrl } from "../redux/api/baseApi";
 
 const AllCategory = () => {
-     const { data: category } = useGetCategoryQuery();
+  const { data: category } = useGetCategoryQuery();
   const categories = [
     {
       title: "Canvas Cotton Hoodie",
@@ -38,9 +38,10 @@ const AllCategory = () => {
   return (
     <div className="container mx-auto py-12 px-4 lg:px-0  ">
       {/* Heading */}
-      <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-10">
+      <h2 className="text-3xl md:text-2xl font-bold  text-gray-800 mb-8">
         Explore Our Categories
       </h2>
+
 
       {/* Category Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
@@ -53,7 +54,7 @@ const AllCategory = () => {
             {/* Image */}
             <div className="relative h-56 flex justify-center items-center ">
               <img
-                 src={`${imageUrl}${category?.imageUrl}`}
+                src={`${imageUrl}${category?.imageUrl}`}
                 alt={category.name}
                 className="h-40 w-auto object-contain group-hover:scale-110 transition-transform duration-300"
               />
@@ -64,7 +65,6 @@ const AllCategory = () => {
               <h3 className="text-xl text-gray-700 group-hover:text-indigo-600 transition-colors duration-300">
                 {category.name}
               </h3>
-            
             </div>
           </Link>
         ))}

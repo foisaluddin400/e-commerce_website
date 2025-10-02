@@ -1,14 +1,22 @@
 import React, { useState } from "react";
-import { Search, ShoppingCart, User, ChevronDown, Menu } from "lucide-react";
+import {
+  Search,
+  ShoppingCart,
+  User,
+  ChevronDown,
+  Menu,
+} from "lucide-react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Drawer } from "antd";
 import logo from "../assets/logo.png";
 import { FaTwitter, FaYoutube } from "react-icons/fa";
 import { SiFacebook } from "react-icons/si";
 import { RiInstagramFill } from "react-icons/ri";
+import { useGetCategoryQuery } from "../Pages/redux/api/categoryApi";
 
 export const Navbar = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
+  const { data: category } = useGetCategoryQuery();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -16,96 +24,98 @@ export const Navbar = () => {
   const navItems = [
     { label: "Home", path: "/", isHighlighted: true },
     {
-      label: "Service",
+      label: "Custom Apparel",
       path: "/allProduct",
-      children: [
-        {
-          label: "Custom Apparel",
-          path: "/allProduct",
-          children: [
-            { label: "T-Shirts", path: "/allProduct" },
-            { label: "Hoodies", path: "/allProduct" },
-          ],
-        },
-        { label: "Accessories & Gifts", path: "/allProduct" },
-        { label: "Prints & Labels", path: "/allProduct" },
-      ],
+      children: [],
     },
-    { label: "Individual Product", path: "/individual_product" },
+    { label: "My Product", path: "/individual_product" },
     { label: "Order", path: "/allProduct", badge: 2 },
     { label: "About", path: "/about" },
     { label: "Contact", path: "/contactUs" },
     { label: "Blog", path: "/blog" },
   ];
 
-  // Recursive Drawer Item
-  const DrawerItem = ({ item, level = 0 }) => {
-    const [open, setOpen] = useState(false);
-    const hasChildren = item.children && item.children.length > 0;
+  // ✅ Mega Menu (Desktop)
+  const renderMegaMenu = () => {
+    if (!category?.data?.length) return null;
 
     return (
-      <div>
-        <div
-          className={`flex justify-between items-center px-4 py-2 hover:bg-gray-700 cursor-pointer`}
-          style={{ paddingLeft: `${16 + level * 16}px` }}
-          onClick={() => hasChildren && setOpen(!open)}
-        >
-          <NavLink
-            to={item.path}
-            className={({ isActive }) =>
-              `flex-1 ${
-                isActive ? "font-medium text-yellow-400" : "text-white "
-              }`
-            }
+      <div className="absolute left-0 top-full w-[1000px] text-sm bg-white shadow-lg rounded-md border py-4 px-8 grid grid-cols-2 md:grid-cols-4 gap-4 z-50">
+        {category.data.map((cat) => (
+          <div
+            key={cat._id}
+            className="cursor-pointer text-black hover:text-blue-600 transition-colors"
+            onClick={() => navigate(`/category/subCategory/${cat._id}`)}
           >
-            {item.label}
-          </NavLink>
-          {hasChildren && (
-            <ChevronDown
-              className={`w-4 h-4 transition-transform ${
-                open ? "rotate-180" : ""
-              }`}
-            />
-          )}
-        </div>
-        {hasChildren && open && (
-          <div>
-            {item.children.map((child, idx) => (
-              <DrawerItem key={idx} item={child} level={level + 1} />
-            ))}
+            {cat.name}
           </div>
-        )}
+        ))}
       </div>
     );
   };
 
-  // Desktop recursive dropdown
-  const renderDropdown = (items) => (
-    <div className="absolute top-full left-0 w-56 bg-white shadow-lg rounded-md border py-2 z-50">
-      {items.map((child, idx) => (
-        <div key={idx} className="relative group">
-          <NavLink
-            to={child.path}
-            className={({ isActive }) =>
-              `block px-4 py-2 ${
-                isActive
-                  ? ""
-                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-              }`
-            }
-          >
-            {child.label}
-            {child.children && <ChevronDown className="inline w-4 h-4 ml-1" />}
-          </NavLink>
-          {child.children && (
-            <div className="absolute top-0 left-full hidden group-hover:block w-56 bg-white shadow-lg rounded-md border py-2 z-50">
-              {renderDropdown(child.children)}
-            </div>
-          )}
+const DrawerItem = ({ item, level = 0 }) => {
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+
+    if (item.label === "Custom Apparel") {
+      setOpen(!open);
+    } else if (item.path) {
+      navigate(item.path);
+    }
+  };
+
+  return (
+    <div>
+
+      <div
+        className={`flex justify-between items-center px-4 py-2 hover:bg-gray-700 cursor-pointer transition-all`}
+        style={{ paddingLeft: `${16 + level * 16}px` }}
+        onClick={handleClick}
+      >
+        <span
+          className={`flex-1 ${
+            item.label === "Custom Apparel" ? "text-white" : "text-white"
+          }`}
+        >
+          {item.label}
+        </span>
+
+
+        {item.label === "Custom Apparel" && (
+          <ChevronDown
+            className={`w-4 h-4 text-white transition-transform duration-300 ${
+              open ? "rotate-180" : ""
+            }`}
+          />
+        )}
+      </div>
+
+
+      {item.label === "Custom Apparel" && (
+        <div
+          className={`overflow-hidden transition-all duration-500 ease-in-out bg-[#2b3a57] ${
+            open ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
+          {open &&
+            category?.data?.length > 0 &&
+            category.data.map((cat) => (
+              <div
+                key={cat._id}
+                className="pl-10 py-2 text-sm text-gray-300 hover:text-blue-400 cursor-pointer transition"
+                onClick={() => navigate(`/category/subCategory/${cat._id}`)}
+              >
+                {cat.name}
+              </div>
+            ))}
         </div>
-      ))}
+      )}
     </div>
   );
+};
 
   const isPathActive = (item) => {
     if (location.pathname === item.path) return true;
@@ -119,9 +129,9 @@ export const Navbar = () => {
   };
 
   return (
-    <header className="w-full ">
-      {/* Top Banner */}
-      <div className="bg-primary  border-b border-gray-400 text-white py-3 hidden md:block">
+    <header className="w-full">
+      {/* 🔝 Top Banner */}
+      <div className="bg-primary border-b border-gray-400 text-white py-3 hidden md:block">
         <div className="container mx-auto flex justify-between items-center text-sm">
           <span>Welcome to Shop Name online eCommerce store.</span>
           <div className="flex items-center gap-2">
@@ -134,11 +144,11 @@ export const Navbar = () => {
         </div>
       </div>
 
-      {/* Main Header */}
+      {/* 🔹 Main Header */}
       <div className="bg-white border-b">
         <div className="bg-primary px-4 lg:px-0">
           <div className="container mx-auto py-4 flex items-center justify-between gap-4">
-            {/* Logo & Hamburger */}
+            {/* Hamburger + Logo */}
             <div className="flex items-center gap-3">
               <button
                 className="md:hidden text-white"
@@ -151,34 +161,35 @@ export const Navbar = () => {
               </NavLink>
             </div>
 
-            {/* Search (Desktop) */}
+            {/* Search (Desktop Only) */}
             <div className="hidden md:flex flex-1 max-w-2xl mx-8">
-              
               <div className="relative w-full">
-             <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              const searchInput = e.target.elements.searchInput;
-              const query = searchInput.value.trim();
-              if (query) {
-                navigate(`/allProduct?search=${encodeURIComponent(query)}`);
-              }
-            }}
-          >
-                 <input
-                   type="text"
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    const searchInput = e.target.elements.searchInput;
+                    const query = searchInput.value.trim();
+                    if (query) {
+                      navigate(
+                        `/allProduct?search=${encodeURIComponent(query)}`
+                      );
+                    }
+                  }}
+                >
+                  <input
+                    type="text"
                     name="searchInput"
-                  placeholder="Search for anything..."
-                  className="w-full pl-4 pr-12 py-2 border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-transparent rounded-md"
-                />
-                <button     type="submit" className="absolute right-2 top-2">
-                  <Search className="w-5 h-5 text-gray-600" />
-                </button>
+                    placeholder="Search for anything..."
+                    className="w-full pl-4 pr-12 py-2 border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-transparent rounded-md"
+                  />
+                  <button type="submit" className="absolute right-2 top-2">
+                    <Search className="w-5 h-5 text-gray-600" />
+                  </button>
                 </form>
               </div>
             </div>
 
-            {/* Auth + Cart */}
+            {/* Auth Buttons */}
             <div className="flex items-center gap-3">
               <NavLink
                 to="/auth/signUp"
@@ -193,6 +204,8 @@ export const Navbar = () => {
                 Log In
               </NavLink>
             </div>
+
+            {/* Cart + Profile (Mobile) */}
             <div className="block lg:hidden">
               <div className="flex gap-3">
                 <Link to={"/cart"}>
@@ -211,9 +224,9 @@ export const Navbar = () => {
           </div>
         </div>
 
-        {/* Desktop Nav */}
+        {/* 🖥 Desktop Nav */}
         <div className="hidden md:block">
-          <div className="container mx-auto ">
+          <div className="container mx-auto">
             <nav className="flex items-center justify-between py-3 relative">
               <div className="flex items-center space-x-8">
                 {navItems.map((item, idx) => (
@@ -234,19 +247,25 @@ export const Navbar = () => {
                       }
                     >
                       {item.label}
-                      {item.children && <ChevronDown className="w-4 h-4" />}
+                      {item.label === "Custom Apparel" && (
+                        <ChevronDown className="w-4 h-4" />
+                      )}
                       {item.badge && (
-                        <span className="ml-1  bg-red-100 text-red-600 text-xs px-2 py-0.5 rounded-full">
+                        <span className="ml-1 bg-red-100 text-red-600 text-xs px-2 py-0.5 rounded-full">
                           {item.badge}
                         </span>
                       )}
                     </NavLink>
-                    {item.children &&
-                      openDropdown === item.label &&
-                      renderDropdown(item.children)}
+
+                    {/* Mega Menu */}
+                    {item.label === "Custom Apparel" &&
+                      openDropdown === "Custom Apparel" &&
+                      renderMegaMenu()}
                   </div>
                 ))}
               </div>
+
+              {/* Cart + Profile (Desktop) */}
               <div className="hidden lg:block">
                 <div className="flex gap-3">
                   <Link to={"/cart"}>
@@ -267,17 +286,15 @@ export const Navbar = () => {
         </div>
       </div>
 
-      {/* Drawer */}
+      {/* 📱 Drawer (Mobile Menu) */}
       <Drawer
         style={{ backgroundColor: "#1D3557", color: "white" }}
-        title={
-          <img src={logo} alt="Logo" className="w-[120px]  mx-auto block" />
-        }
+        title={<img src={logo} alt="Logo" className="w-[120px] mx-auto block" />}
         placement="right"
         onClose={() => setDrawerOpen(false)}
         open={drawerOpen}
       >
-        {/* Search */}
+        {/* 🔍 Search */}
         <div className="mb-4">
           <form
             onSubmit={(e) => {
@@ -303,8 +320,8 @@ export const Navbar = () => {
           </form>
         </div>
 
-        {/* Drawer Nav Items */}
-        <div className="flex flex-col space-y-2 ">
+        {/* Drawer Menu Items */}
+        <div className="flex flex-col space-y-2">
           {navItems.map((item, idx) => (
             <DrawerItem key={idx} item={item} />
           ))}
