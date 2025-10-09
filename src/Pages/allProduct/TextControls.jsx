@@ -456,19 +456,20 @@ const TextControls = ({
         <div>
           <label>Shadow Blur: {shadowBlur.toFixed(1)}</label>
           <input
-            type="range"
-            min="0"
-            max="20"
-            step="0.1"
-            value={shadowBlur}
-            onChange={(e) => {
-              const value = parseFloat(e.target.value) || 0;
-              setLocalShadowBlur(value);
-              setShadowBlur(value);
-              changeTextShadow("blur", value);
-            }}
-            className="w-full mt-1"
-          />
+  type="range"
+  min="0"
+  max="20"
+  step="0.1"
+  value={shadowBlur}
+  onChange={(e) => {
+    const value = parseFloat(e.target.value) || 0;
+    setLocalShadowBlur(value);
+    setShadowBlur(value);
+    changeTextShadow("blur", value);
+  }}
+  className="w-full mt-4 h-2 rounded-full bg-gray-300 accent-blue-500 slider-thumb"
+/>
+
         </div>
       </div>
       <div className="border p-2">

@@ -102,7 +102,7 @@ const AccessoryGift = () => {
           </div>
         </div>
         <div>
-          <Link to={"/all-category"}>
+          <Link to={"/allProduct"}>
             <h1 className="text-primary">View All</h1>
           </Link>
         </div>

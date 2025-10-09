@@ -9,48 +9,177 @@ import { Link, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { saveDesigns } from "../redux/store";
 import { CiText } from "react-icons/ci";
-import pen from '../../assets/Home/pen.png';
-import art from '../../assets/Home/art.png';
-import cloud from '../../assets/Home/cloud.png';
+import pen from "../../assets/Home/pen.png";
+import art from "../../assets/Home/art.png";
+import cloud from "../../assets/Home/cloud.png";
 import { useGetSingleProductQuery } from "../redux/api/productApi";
 import { imageUrl } from "../redux/api/baseApi";
 import { toast } from "sonner";
+import img from "../../assets/svg.svg";
 
 // Load Google Fonts for Pacifico
 const loadGoogleFonts = () => {
   const fonts = [
-    "Roboto", "Open Sans", "Lato", "Montserrat", "Poppins", "Raleway", "Source Sans Pro",
-    "PT Sans", "Ubuntu", "Noto Sans", "Rubik", "Inter", "Fira Sans", "Work Sans",
-    "Nunito", "Quicksand", "Muli", "Karla", "Barlow", "Overpass", "Catamaran",
-    "Josefin Sans", "Arimo", "Cabin", "Varela Round", "IBM Plex Sans", "Dosis",
-    "Oxygen", "Hind", "Asap", "Prompt", "Manrope", "Public Sans", "DM Sans",
-    "Jost", "Archivo", "Exo", "Chivo", "Heebo", "Mukta", "Titillium Web",
-    "Yantramanav", "Red Hat Display", "Mulish", "Space Grotesk", "Urbanist",
-    "Outfit", "Figtree", "Lexend", "Sora", "Merriweather", "Playfair Display",
-    "Lora", "Spectral", "Crimson Text", "Bitter", "Cardo", "Vollkorn",
-    "EB Garamond", "Noto Serif", "Source Serif Pro", "Libre Baskerville",
-    "Domine", "Alegreya", "Cormorant", "Old Standard TT", "Baskervville",
-    "Arvo", "Zilla Slab", "Literata", "Gentium Book Basic", "Ibarra Real Nova",
-    "Sorts Mill Goudy", "Neuton", "Aleo", "Prata", "Cinzel", "Vidaloka",
-    "Yeseva One", "Faustina", "Rosarivo", "Fanwood Text", "IM Fell English",
-    "Crimson Pro", "Vesper Libre", "Bangers", "Bebas Neue", "Anton",
-    "Abril Fatface", "Lobster", "Oswald", "Alfa Slab One", "Black Ops One",
-    "Righteous", "Patua One", "Archivo Black", "Creepster", "Fredericka the Great",
-    "Special Elite", "Monoton", "Bungee", "Changa One", "Fjalla One",
-    "Passion One", "Russo One", "Teko", "Staatliches", "Squada One",
-    "Paytone One", "Ultra", "Bowlby One SC", "Pacifico", "Amatic SC",
-    "Shadows Into Light", "Dancing Script", "Indie Flower", "Caveat",
-    "Permanent Marker", "Rock Salt", "Covered By Your Grace", "Great Vibes",
-    "Sacramento", "Kaushan Script", "Satisfy", "Zeyada", "Tangerine",
-    "Allura", "Parisienne", "Berkshire Swash", "Homemade Apple",
-    "Cedarville Cursive", "Reenie Beanie", "Annie Use Your Telescope",
-    "Coming Soon", "Just Another Hand", "Handlee", "Gochi Hand",
-    "Schoolbell", "Crafty Girls", "Kalam", "Neucha", "Patrick Hand",
-    "Sue Ellen Francisco", "Waiting for the Sunrise", "Marck Script",
-    "Inconsolata", "Source Code Pro", "Fira Code", "Roboto Mono",
-    "Space Mono", "IBM Plex Mono", "Ubuntu Mono", "Cousine", "JetBrains Mono",
-    "Anonymous Pro", "Overpass Mono", "Victor Mono", "PT Mono",
-    "Cutive Mono", "Share Tech Mono"
+    "Roboto",
+    "Open Sans",
+    "Lato",
+    "Montserrat",
+    "Poppins",
+    "Raleway",
+    "Source Sans Pro",
+    "PT Sans",
+    "Ubuntu",
+    "Noto Sans",
+    "Rubik",
+    "Inter",
+    "Fira Sans",
+    "Work Sans",
+    "Nunito",
+    "Quicksand",
+    "Muli",
+    "Karla",
+    "Barlow",
+    "Overpass",
+    "Catamaran",
+    "Josefin Sans",
+    "Arimo",
+    "Cabin",
+    "Varela Round",
+    "IBM Plex Sans",
+    "Dosis",
+    "Oxygen",
+    "Hind",
+    "Asap",
+    "Prompt",
+    "Manrope",
+    "Public Sans",
+    "DM Sans",
+    "Jost",
+    "Archivo",
+    "Exo",
+    "Chivo",
+    "Heebo",
+    "Mukta",
+    "Titillium Web",
+    "Yantramanav",
+    "Red Hat Display",
+    "Mulish",
+    "Space Grotesk",
+    "Urbanist",
+    "Outfit",
+    "Figtree",
+    "Lexend",
+    "Sora",
+    "Merriweather",
+    "Playfair Display",
+    "Lora",
+    "Spectral",
+    "Crimson Text",
+    "Bitter",
+    "Cardo",
+    "Vollkorn",
+    "EB Garamond",
+    "Noto Serif",
+    "Source Serif Pro",
+    "Libre Baskerville",
+    "Domine",
+    "Alegreya",
+    "Cormorant",
+    "Old Standard TT",
+    "Baskervville",
+    "Arvo",
+    "Zilla Slab",
+    "Literata",
+    "Gentium Book Basic",
+    "Ibarra Real Nova",
+    "Sorts Mill Goudy",
+    "Neuton",
+    "Aleo",
+    "Prata",
+    "Cinzel",
+    "Vidaloka",
+    "Yeseva One",
+    "Faustina",
+    "Rosarivo",
+    "Fanwood Text",
+    "IM Fell English",
+    "Crimson Pro",
+    "Vesper Libre",
+    "Bangers",
+    "Bebas Neue",
+    "Anton",
+    "Abril Fatface",
+    "Lobster",
+    "Oswald",
+    "Alfa Slab One",
+    "Black Ops One",
+    "Righteous",
+    "Patua One",
+    "Archivo Black",
+    "Creepster",
+    "Fredericka the Great",
+    "Special Elite",
+    "Monoton",
+    "Bungee",
+    "Changa One",
+    "Fjalla One",
+    "Passion One",
+    "Russo One",
+    "Teko",
+    "Staatliches",
+    "Squada One",
+    "Paytone One",
+    "Ultra",
+    "Bowlby One SC",
+    "Pacifico",
+    "Amatic SC",
+    "Shadows Into Light",
+    "Dancing Script",
+    "Indie Flower",
+    "Caveat",
+    "Permanent Marker",
+    "Rock Salt",
+    "Covered By Your Grace",
+    "Great Vibes",
+    "Sacramento",
+    "Kaushan Script",
+    "Satisfy",
+    "Zeyada",
+    "Tangerine",
+    "Allura",
+    "Parisienne",
+    "Berkshire Swash",
+    "Homemade Apple",
+    "Cedarville Cursive",
+    "Reenie Beanie",
+    "Annie Use Your Telescope",
+    "Coming Soon",
+    "Just Another Hand",
+    "Handlee",
+    "Gochi Hand",
+    "Schoolbell",
+    "Crafty Girls",
+    "Kalam",
+    "Neucha",
+    "Patrick Hand",
+    "Sue Ellen Francisco",
+    "Waiting for the Sunrise",
+    "Marck Script",
+    "Inconsolata",
+    "Source Code Pro",
+    "Fira Code",
+    "Roboto Mono",
+    "Space Mono",
+    "IBM Plex Mono",
+    "Ubuntu Mono",
+    "Cousine",
+    "JetBrains Mono",
+    "Anonymous Pro",
+    "Overpass Mono",
+    "Victor Mono",
+    "PT Mono",
+    "Cutive Mono",
+    "Share Tech Mono",
   ];
   const link = document.createElement("link");
   link.href = `https://fonts.googleapis.com/css2?${fonts
@@ -59,11 +188,16 @@ const loadGoogleFonts = () => {
   link.rel = "stylesheet";
   document.head.appendChild(link);
 };
+
 export default function DesignPage() {
   const { id } = useParams();
-  const { data: singleProduct, isLoading: isProductLoading, error: productError } = useGetSingleProductQuery({ id });
+  const {
+    data: singleProduct,
+    isLoading: isProductLoading,
+    error: productError,
+  } = useGetSingleProductQuery({ id });
   console.log("API State:", { singleProduct, isProductLoading, productError });
-  console.log(singleProduct)
+  console.log(singleProduct);
   const canvasRef = useRef(null);
   const [canvas, setCanvas] = useState(null);
   const [activeObject, setActiveObject] = useState(null);
@@ -78,17 +212,22 @@ export default function DesignPage() {
   const [borderWidth, setBorderWidth] = useState(0);
   const dispatch = useDispatch();
 
-  const frontTshirtUrl = singleProduct?.data?.variants[selectedColorIndex]?.frontImage
+  const frontTshirtUrl = singleProduct?.data?.variants[selectedColorIndex]
+    ?.frontImage
     ? `${imageUrl}${singleProduct.data.variants[selectedColorIndex].frontImage}`
     : "https://via.placeholder.com/700x700?text=Front+T-Shirt";
-  const backTshirtUrl = singleProduct?.data?.variants[selectedColorIndex]?.backImage
+  const backTshirtUrl = singleProduct?.data?.variants[selectedColorIndex]
+    ?.backImage
     ? `${imageUrl}${singleProduct.data.variants[selectedColorIndex].backImage}`
     : "https://via.placeholder.com/700x700?text=Back+T-Shirt";
   const activeImage = currentSide === "front" ? frontTshirtUrl : backTshirtUrl;
 
   // Initialize canvas
   const initializeCanvas = () => {
-    console.log("Attempting canvas initialization, DOM check:", !!document.querySelector("canvas"));
+    console.log(
+      "Attempting canvas initialization, DOM check:",
+      !!document.querySelector("canvas")
+    );
     if (!canvasRef.current || !document.contains(canvasRef.current)) {
       console.error("Canvas element not found in DOM");
       return null;
@@ -127,14 +266,23 @@ export default function DesignPage() {
   };
 
   useEffect(() => {
-    console.log("Canvas ref at mount:", canvasRef.current, "DOM check:", !!document.querySelector("canvas"));
+    console.log(
+      "Canvas ref at mount:",
+      canvasRef.current,
+      "DOM check:",
+      !!document.querySelector("canvas")
+    );
     if (!canvas && canvasRef.current && document.contains(canvasRef.current)) {
       const canvasInstance = initializeCanvas();
       setCanvas(canvasInstance);
     }
 
     return () => {
-      if (canvas && canvas.getContext() && !document.contains(canvasRef.current)) {
+      if (
+        canvas &&
+        canvas.getContext() &&
+        !document.contains(canvasRef.current)
+      ) {
         console.log("Disposing canvas on unmount");
         canvas.dispose();
         setCanvas(null);
@@ -145,21 +293,31 @@ export default function DesignPage() {
   // Monitor and reinitialize canvas if lost
   useEffect(() => {
     if (!canvas || !canvas.getContext()) {
-      console.log("Starting canvas retry, canvas:", !!canvas, "context:", canvas ? !!canvas.getContext() : false);
+      console.log(
+        "Starting canvas retry, canvas:",
+        !!canvas,
+        "context:",
+        canvas ? !!canvas.getContext() : false
+      );
       let attempts = 0;
       const maxAttempts = 10;
       const baseDelay = 500;
 
       const retryCanvas = () => {
         attempts++;
-        console.log(`Canvas retry attempt ${attempts}/${maxAttempts}, DOM check:`, !!document.querySelector("canvas"));
+        console.log(
+          `Canvas retry attempt ${attempts}/${maxAttempts}, DOM check:`,
+          !!document.querySelector("canvas")
+        );
         if (!canvasRef.current || !document.contains(canvasRef.current)) {
           console.error("Canvas element not found during retry");
           if (attempts < maxAttempts) {
             setTimeout(retryCanvas, baseDelay * Math.pow(2, attempts));
           } else {
             console.error("Max canvas retry attempts reached");
-            toast.error("Failed to initialize canvas. Please refresh the page.");
+            toast.error(
+              "Failed to initialize canvas. Please refresh the page."
+            );
           }
           return;
         }
@@ -174,7 +332,9 @@ export default function DesignPage() {
             setTimeout(retryCanvas, baseDelay * Math.pow(2, attempts));
           } else {
             console.error("Max canvas retry attempts reached");
-            toast.error("Failed to initialize canvas. Please refresh the page.");
+            toast.error(
+              "Failed to initialize canvas. Please refresh the page."
+            );
           }
         }
       };
@@ -185,24 +345,40 @@ export default function DesignPage() {
 
   // Load saved design
   useEffect(() => {
-    console.log("Design load effect triggered:", { canvas: !!canvas, context: canvas ? !!canvas.getContext() : false, singleProduct: !!singleProduct, isProductLoading });
+    console.log("Design load effect triggered:", {
+      canvas: !!canvas,
+      context: canvas ? !!canvas.getContext() : false,
+      singleProduct: !!singleProduct,
+      isProductLoading,
+    });
     if (!canvas || !canvas.getContext() || !singleProduct || isProductLoading) {
       console.log("Skipping design load due to invalid state");
       return;
     }
 
     const design = designs[selectedColorIndex]?.[currentSide];
-    console.log("Loading design for color:", selectedColorIndex, "side:", currentSide, "design exists:", !!design);
+    console.log(
+      "Loading design for color:",
+      selectedColorIndex,
+      "side:",
+      currentSide,
+      "design exists:",
+      !!design
+    );
     if (design) {
-      canvas.loadFromJSON(design, () => {
-        canvas.forEachObject((obj) => addDeleteControl(obj, canvas));
-        canvas.isDrawingMode = false;
-        canvas.renderAll();
-        console.log("Design loaded successfully");
-      }, (err) => {
-        console.error("Failed to load design:", err);
-        toast.error("Failed to load saved design.");
-      });
+      canvas.loadFromJSON(
+        design,
+        () => {
+          canvas.forEachObject((obj) => addDeleteControl(obj, canvas));
+          canvas.isDrawingMode = false;
+          canvas.renderAll();
+          console.log("Design loaded successfully");
+        },
+        (err) => {
+          console.error("Failed to load design:", err);
+          toast.error("Failed to load saved design.");
+        }
+      );
     } else {
       canvas.remove(...canvas.getObjects());
       addTextToCanvas(canvas, "Double click to edit");
@@ -210,7 +386,13 @@ export default function DesignPage() {
       canvas.renderAll();
       console.log("Initialized empty canvas with default placeholders");
     }
-  }, [canvas, currentSide, selectedColorIndex, singleProduct, isProductLoading]);
+  }, [
+    canvas,
+    currentSide,
+    selectedColorIndex,
+    singleProduct,
+    isProductLoading,
+  ]);
 
   const handleSelection = (e) => {
     const obj = e.selected ? e.selected[0] : null;
@@ -231,7 +413,9 @@ export default function DesignPage() {
 
   const addDeleteControl = (object, canvasInstance) => {
     if (!object || !canvasInstance.getContext()) {
-      console.error("Cannot add delete control: Invalid object or canvas context");
+      console.error(
+        "Cannot add delete control: Invalid object or canvas context"
+      );
       return;
     }
     object.controls.deleteControl = new fabric.Control({
@@ -291,10 +475,7 @@ export default function DesignPage() {
     const toastId = toast.loading("Saving design...");
 
     try {
-      // Force canvas to render all changes
       canvas.renderAll();
-
-      // Save canvas JSON
       const json = canvas.toJSON();
       delete json.backgroundImage;
       setDesigns((prev) => ({
@@ -305,7 +486,6 @@ export default function DesignPage() {
         },
       }));
 
-      // Create temp canvas for preview
       const tempCanvas = document.createElement("canvas");
       tempCanvas.width = canvas.getWidth();
       tempCanvas.height = canvas.getHeight();
@@ -313,27 +493,36 @@ export default function DesignPage() {
 
       if (!context) {
         console.error("Failed to get temp canvas context");
-        toast.error("Failed to save design: Temporary canvas context error.", { id: toastId });
+        toast.error("Failed to save design: Temporary canvas context error.", {
+          id: toastId,
+        });
         return;
       }
 
-      // Draw canvas content first (ensures designs are captured)
       const canvasDataUrl = canvas.toDataURL({ format: "png", multiplier: 1 });
       const canvasImage = new window.Image();
       canvasImage.src = canvasDataUrl;
 
       canvasImage.onload = () => {
         context.drawImage(canvasImage, 0, 0);
-
-        // Try to load T-shirt image
         const imgElement = new window.Image();
         imgElement.crossOrigin = "anonymous";
         imgElement.src = activeImage;
 
         imgElement.onload = () => {
-          console.log("T-shirt image loaded:", { src: imgElement.src, width: imgElement.width, height: imgElement.height });
+          console.log("T-shirt image loaded:", {
+            src: imgElement.src,
+            width: imgElement.width,
+            height: imgElement.height,
+          });
           context.globalCompositeOperation = "destination-over";
-          context.drawImage(imgElement, 0, 0, tempCanvas.width, tempCanvas.height);
+          context.drawImage(
+            imgElement,
+            0,
+            0,
+            tempCanvas.width,
+            tempCanvas.height
+          );
           context.globalCompositeOperation = "source-over";
 
           const finalImageUrl = tempCanvas.toDataURL("image/png");
@@ -351,7 +540,14 @@ export default function DesignPage() {
           });
 
           toast.success("Design saved successfully!", { id: toastId });
-          console.log("Design saved for color:", selectedColorIndex, "side:", currentSide, "preview URL:", finalImageUrl);
+          console.log(
+            "Design saved for color:",
+            selectedColorIndex,
+            "side:",
+            currentSide,
+            "preview URL:",
+            finalImageUrl
+          );
         };
 
         imgElement.onerror = (err) => {
@@ -368,8 +564,18 @@ export default function DesignPage() {
             console.log("Fallback previews:", newPreviews);
             return newPreviews;
           });
-          toast.warning("Saved design without T-shirt image due to image loading error.", { id: toastId });
-          console.log("Fallback design saved for color:", selectedColorIndex, "side:", currentSide, "preview URL:", fallbackImageUrl);
+          toast.warning(
+            "Saved design without T-shirt image due to image loading error.",
+            { id: toastId }
+          );
+          console.log(
+            "Fallback design saved for color:",
+            selectedColorIndex,
+            "side:",
+            currentSide,
+            "preview URL:",
+            fallbackImageUrl
+          );
         };
       };
 
@@ -387,8 +593,18 @@ export default function DesignPage() {
           console.log("Fallback previews:", newPreviews);
           return newPreviews;
         });
-        toast.warning("Saved design without T-shirt image due to rendering error.", { id: toastId });
-        console.log("Fallback design saved for color:", selectedColorIndex, "side:", currentSide, "preview URL:", fallbackImageUrl);
+        toast.warning(
+          "Saved design without T-shirt image due to rendering error.",
+          { id: toastId }
+        );
+        console.log(
+          "Fallback design saved for color:",
+          selectedColorIndex,
+          "side:",
+          currentSide,
+          "preview URL:",
+          fallbackImageUrl
+        );
       };
     } catch (err) {
       console.error("Save design error:", err);
@@ -397,28 +613,41 @@ export default function DesignPage() {
   };
 
   const switchSide = (newSide) => {
-    console.log("Switching side:", { newSide, currentSide, canvas: !!canvas, context: canvas ? !!canvas.getContext() : false });
+    console.log("Switching side:", {
+      newSide,
+      currentSide,
+      canvas: !!canvas,
+      context: canvas ? !!canvas.getContext() : false,
+    });
     if (newSide === currentSide) {
       const design = designs[selectedColorIndex]?.[newSide];
       if (design && canvas && canvas.getContext()) {
-        const shouldLoad = window.confirm("Do you want to load the saved design for this side? This will discard any unsaved changes.");
+        const shouldLoad = window.confirm(
+          "Do you want to load the saved design for this side? This will discard any unsaved changes."
+        );
         if (shouldLoad) {
-          canvas.loadFromJSON(design, () => {
-            canvas.forEachObject((obj) => addDeleteControl(obj, canvas));
-            canvas.isDrawingMode = false;
-            canvas.renderAll();
-            console.log("Loaded saved design for side:", newSide);
-          }, (err) => {
-            console.error("Failed to load design:", err);
-            toast.error("Failed to load saved design.");
-          });
+          canvas.loadFromJSON(
+            design,
+            () => {
+              canvas.forEachObject((obj) => addDeleteControl(obj, canvas));
+              canvas.isDrawingMode = false;
+              canvas.renderAll();
+              console.log("Loaded saved design for side:", newSide);
+            },
+            (err) => {
+              console.error("Failed to load design:", err);
+              toast.error("Failed to load saved design.");
+            }
+          );
         }
       }
       return;
     }
 
     if (canvas && canvas.getContext()) {
-      const shouldSave = window.confirm("Are you sure you want to save the current design?");
+      const shouldSave = window.confirm(
+        "Are you sure you want to save the current design?"
+      );
       if (shouldSave) {
         saveDesign();
       }
@@ -427,15 +656,27 @@ export default function DesignPage() {
     setCurrentSide(newSide);
     setActiveObject(null);
     setSelectedTool("text");
-    console.log("Side switched to:", newSide, "with URL:", newSide === "front" ? frontTshirtUrl : backTshirtUrl);
+    console.log(
+      "Side switched to:",
+      newSide,
+      "with URL:",
+      newSide === "front" ? frontTshirtUrl : backTshirtUrl
+    );
   };
 
   const selectColor = (index) => {
-    console.log("Selecting color:", { index, current: selectedColorIndex, canvas: !!canvas, context: canvas ? !!canvas.getContext() : false });
+    console.log("Selecting color:", {
+      index,
+      current: selectedColorIndex,
+      canvas: !!canvas,
+      context: canvas ? !!canvas.getContext() : false,
+    });
     if (index === selectedColorIndex) return;
 
     if (canvas && canvas.getContext()) {
-      const shouldSave = window.confirm("Are you sure you want to save the current design?");
+      const shouldSave = window.confirm(
+        "Are you sure you want to save the current design?"
+      );
       if (shouldSave) {
         saveDesign();
       }
@@ -518,56 +759,97 @@ export default function DesignPage() {
     }
   };
 
-  const addImageFromUrl = (imageUrl, isSvg) => {
+  const addImageFromUrl = (imageUrl, isSvg, position = { left: 150, top: 150 }) => {
     if (!canvas || !canvas.getContext()) {
       console.error("Cannot add image from URL: Canvas context unavailable");
       toast.error("Cannot add image: Canvas not initialized.");
       return;
     }
-    console.log("Adding image from URL:", imageUrl, "isSvg:", isSvg);
+    console.log("Adding image from URL:", imageUrl, "isSvg:", isSvg, "position:", position);
     if (isSvg) {
-      fabric.loadSVGFromURL(imageUrl, (objects, options) => {
-        const svgGroup = fabric.util.groupSVGElements(objects, {
-          left: 150,
-          top: 150,
-          scaleX: 0.5,
-          scaleY: 0.5,
-          ...options,
-        });
-
-        addDeleteControl(svgGroup, canvas);
-
-        canvas.add(svgGroup);
-        canvas.setActiveObject(svgGroup);
-        canvas.renderAll();
-        setSelectedTool("imageIcon");
-        console.log("SVG added to canvas");
-      }, (error) => {
-        console.error("Failed to load SVG:", imageUrl, error);
-        toast.error("Failed to add SVG to canvas. Check console for details.");
-      });
-    } else {
-      fabric.Image.fromURL(imageUrl, (img) => {
-        if (img) {
-          img.set({
-            left: 150,
-            top: 150,
+      fabric.loadSVGFromURL(
+        imageUrl,
+        (objects, options) => {
+          const svgGroup = fabric.util.groupSVGElements(objects, {
+            left: position.left,
+            top: position.top,
             scaleX: 0.5,
             scaleY: 0.5,
+            ...options,
           });
+          svgGroup._originalSvgUrl = imageUrl; // Store original URL for reference
 
-          addDeleteControl(img, canvas);
+          addDeleteControl(svgGroup, canvas);
 
-          canvas.add(img);
-          canvas.setActiveObject(img);
+          canvas.add(svgGroup);
+          canvas.setActiveObject(svgGroup);
           canvas.renderAll();
           setSelectedTool("imageIcon");
-          console.log("Image added to canvas from URL:", imageUrl);
-        } else {
-          console.error("Failed to load image:", imageUrl);
-          toast.error("Failed to load image from URL.");
+          console.log("SVG added to canvas at position:", position);
+        },
+        (error) => {
+          console.error("Failed to load SVG:", imageUrl, error);
+          toast.error(
+            "Failed to add SVG to canvas. Check console for details."
+          );
         }
-      }, { crossOrigin: "anonymous" });
+      );
+    } else {
+      fabric.Image.fromURL(
+        imageUrl,
+        (img) => {
+          if (img) {
+            img.set({
+              left: position.left,
+              top: position.top,
+              scaleX: 0.5,
+              scaleY: 0.5,
+            });
+
+            addDeleteControl(img, canvas);
+
+            canvas.add(img);
+            canvas.setActiveObject(img);
+            canvas.renderAll();
+            setSelectedTool("imageIcon");
+            console.log("Image added to canvas from URL:", imageUrl, "position:", position);
+          } else {
+            console.error("Failed to load image:", imageUrl);
+            toast.error("Failed to load image from URL.");
+          }
+        },
+        { crossOrigin: "anonymous" }
+      );
+    }
+  };
+
+  // Handle drag over event on canvas
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "copy";
+  };
+
+  // Handle drop event on canvas
+  const handleDrop = (e) => {
+    e.preventDefault();
+    if (!canvas || !canvas.getContext()) {
+      console.error("Cannot drop: Canvas context unavailable");
+      toast.error("Cannot drop icon: Canvas not initialized.");
+      return;
+    }
+
+    try {
+      const data = JSON.parse(e.dataTransfer.getData("text/plain"));
+      if (data.type === "svgIcon") {
+        const rect = canvasRef.current.getBoundingClientRect();
+        const dropX = e.clientX - rect.left;
+        const dropY = e.clientY - rect.top;
+        addImageFromUrl(data.dataUrl, true, { left: dropX, top: dropY });
+        console.log("Dropped SVG icon:", data.name, "at position:", { left: dropX, top: dropY });
+      }
+    } catch (err) {
+      console.error("Failed to handle drop:", err);
+      toast.error("Failed to drop icon.");
     }
   };
 
@@ -578,28 +860,31 @@ export default function DesignPage() {
       return;
     }
 
-    // Save the current design before persisting
     saveDesign();
 
-    // Wait briefly to ensure previews state is updated
     setTimeout(() => {
-      // Get the previews for the current color index
       const currentPreviews = previews[selectedColorIndex] || {};
-      const frontPreview = currentPreviews.front || "https://via.placeholder.com/700x700?text=No+Front+Design";
-      const backPreview = currentPreviews.back || "https://via.placeholder.com/700x700?text=No+Back+Design";
+      const frontPreview =
+        currentPreviews.front ||
+        "https://via.placeholder.com/700x700?text=No+Front+Design";
+      const backPreview =
+        currentPreviews.back ||
+        "https://via.placeholder.com/700x700?text=No+Back+Design";
 
-      // Dispatch the previews to Redux store
       dispatch(saveDesigns({ frontPreview, backPreview }));
       console.log("Designs persisted to Redux:", { frontPreview, backPreview });
       toast.success("Designs saved to persist!");
-    }, 100); // Small delay to ensure state updates
+    }, 100);
   };
 
   if (productError) {
     return (
       <div className="flex h-screen bg-gray-100 justify-center items-center">
         <div className="text-red-500 text-center">
-          <h1>Error loading product data: {productError?.data?.message || "Unknown error"}</h1>
+          <h1>
+            Error loading product data:{" "}
+            {productError?.data?.message || "Unknown error"}
+          </h1>
           <p>Please check the product ID or server connection and try again.</p>
           <button
             onClick={() => window.location.reload()}
@@ -613,13 +898,18 @@ export default function DesignPage() {
   }
 
   return (
-    <div className="flex  bg-gray-100">
+    <div className="flex bg-gray-100">
       {/* Left Sidebar */}
       <div className="w-24 bg-gray-50 p-2 flex flex-col items-center gap-4 border-r">
         <button
           disabled={isProductLoading}
           onClick={() => {
-            console.log("Text button clicked, canvas:", !!canvas, "context:", canvas ? !!canvas.getContext() : false);
+            console.log(
+              "Text button clicked, canvas:",
+              !!canvas,
+              "context:",
+              canvas ? !!canvas.getContext() : false
+            );
             setSelectedTool("text");
             if (canvas && canvas.getContext()) {
               addTextToCanvas(canvas);
@@ -629,14 +919,23 @@ export default function DesignPage() {
               toast.error("Canvas not initialized. Please wait or refresh.");
             }
           }}
-          className={`p-2 rounded ${selectedTool === "text" ? "bg-gray-200 text-gray-700" : "bg-gray-100 text-gray-600"} ${isProductLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+          className={`p-2 rounded ${
+            selectedTool === "text"
+              ? "bg-gray-300 text-gray-700"
+              : "bg-gray-100 text-gray-600"
+          } ${isProductLoading ? "opacity-50 cursor-not-allowed" : ""}`}
         >
-          <CiText size={44} />
+          <img className="" src={img} alt="" />
         </button>
         <button
           disabled={isProductLoading}
           onClick={() => {
-            console.log("Image button clicked, canvas:", !!canvas, "context:", canvas ? !!canvas.getContext() : false);
+            console.log(
+              "Image button clicked, canvas:",
+              !!canvas,
+              "context:",
+              canvas ? !!canvas.getContext() : false
+            );
             setSelectedTool("image");
             if (canvas && canvas.getContext()) {
               canvas.isDrawingMode = false;
@@ -645,14 +944,23 @@ export default function DesignPage() {
               toast.error("Canvas not initialized. Please wait or refresh.");
             }
           }}
-          className={`p-2 rounded ${selectedTool === "image" ? "bg-gray-200 text-gray-700" : "bg-gray-100 text-gray-600"} ${isProductLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+          className={`p-2 rounded ${
+            selectedTool === "image"
+              ? "bg-gray-300 text-gray-700"
+              : "bg-gray-100 text-gray-600"
+          } ${isProductLoading ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           <img className="w-[45px]" src={cloud} alt="Upload" />
         </button>
         <button
           disabled={isProductLoading}
           onClick={() => {
-            console.log("ImageIcon button clicked, canvas:", !!canvas, "context:", canvas ? !!canvas.getContext() : false);
+            console.log(
+              "ImageIcon button clicked, canvas:",
+              !!canvas,
+              "context:",
+              canvas ? !!canvas.getContext() : false
+            );
             setSelectedTool("imageIcon");
             if (canvas && canvas.getContext()) {
               canvas.isDrawingMode = false;
@@ -661,14 +969,23 @@ export default function DesignPage() {
               toast.error("Canvas not initialized. Please wait or refresh.");
             }
           }}
-          className={`p-2 rounded ${selectedTool === "imageIcon" ? "bg-gray-200 text-gray-700" : "bg-gray-100 text-gray-600"} ${isProductLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+          className={`p-2 rounded ${
+            selectedTool === "imageIcon"
+              ? "bg-gray-300 text-gray-700"
+              : "bg-gray-100 text-gray-600"
+          } ${isProductLoading ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           <img className="w-[45px]" src={art} alt="Image Icon" />
         </button>
         <button
           disabled={isProductLoading}
           onClick={() => {
-            console.log("Drawing button clicked, canvas:", !!canvas, "context:", canvas ? !!canvas.getContext() : false);
+            console.log(
+              "Drawing button clicked, canvas:",
+              !!canvas,
+              "context:",
+              canvas ? !!canvas.getContext() : false
+            );
             setSelectedTool("drawing");
             if (canvas && canvas.getContext()) {
               canvas.isDrawingMode = true;
@@ -677,7 +994,11 @@ export default function DesignPage() {
               toast.error("Canvas not initialized. Please wait or refresh.");
             }
           }}
-          className={`p-2 rounded ${selectedTool === "drawing" ? "bg-gray-200 text-gray-700" : "bg-gray-100 text-gray-600"} ${isProductLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+          className={`p-2 rounded ${
+            selectedTool === "drawing"
+              ? "bg-gray-300 text-gray-700"
+              : "bg-gray-100 text-gray-600"
+          } ${isProductLoading ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           <img className="w-[55px]" src={pen} alt="Pen" />
         </button>
@@ -688,20 +1009,34 @@ export default function DesignPage() {
         {isProductLoading ? (
           <div className="w-[700px] h-[700px] animate-pulse rounded bg-slate-200" />
         ) : (
-          <div className="shadow-md p-4 rounded-md relative" style={{ width: 700, height: 700 }}>
+          <div
+            className="shadow-md p-4 rounded-md relative"
+            style={{ width: 700, height: 700 }}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+          >
             <div className="absolute top-0 -right-24 flex gap-2">
               <button
                 disabled={isProductLoading}
                 onClick={() => {
-                  console.log("Save button clicked, canvas:", !!canvas, "context:", canvas ? !!canvas.getContext() : false);
+                  console.log(
+                    "Save button clicked, canvas:",
+                    !!canvas,
+                    "context:",
+                    canvas ? !!canvas.getContext() : false
+                  );
                   if (canvas && canvas.getContext()) {
                     saveDesign();
                   } else {
                     console.error("Save button clicked but canvas unavailable");
-                    toast.error("Canvas not initialized. Please wait or refresh.");
+                    toast.error(
+                      "Canvas not initialized. Please wait or refresh."
+                    );
                   }
                 }}
-                className={`p-2 bg-green-500 text-white rounded flex items-center gap-2 ${isProductLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                className={`p-2 bg-green-500 text-white rounded flex items-center gap-2 ${
+                  isProductLoading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
                 <Save size={20} />
                 Save
@@ -752,7 +1087,20 @@ export default function DesignPage() {
           </div>
         )}
 
-        <ImageIconControls selectedTool={selectedTool} onImageSelect={addImageFromUrl} />
+        <ImageIconControls
+          selectedTool={selectedTool}
+          onImageSelect={addImageFromUrl}
+          activeObject={activeObject}
+          onColorChange={(newColor) => {
+            if (activeObject && activeObject.type === "group") {
+              activeObject.getObjects().forEach((obj) => {
+                if (obj.fill) obj.set({ fill: newColor });
+              });
+              canvas.renderAll();
+            }
+          }}
+          canvas={canvas}
+        />
 
         <DrawingControls
           canvas={canvas}
@@ -765,36 +1113,40 @@ export default function DesignPage() {
       <div className="w-72 bg-gray-50 p-4 flex flex-col gap-4 border-l">
         <div className="border p-2">
           <h1 className="font-semibold mb-2">Select Color</h1>
-         <div className="flex flex-wrap gap-1">
-           {singleProduct?.data?.variants?.map((variant, index) => (
-            <button
-              key={variant._id}
-              onClick={() => selectColor(index)}
-              disabled={isProductLoading}
-              className={`flex items-center gap-2  rounded-full  ${selectedColorIndex === index ? "bg-red-500 p-[2px] " : ""} ${isProductLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-            >
-              <div
-                className="w-6 h-6 rounded-full border"
-                style={{ backgroundColor: variant.color.hexValue }}
-              ></div>
-              {/* <span>{variant.color.name} ({variant.color.hexValue})</span> */}
-            </button>
-          ))}
-         </div>
+          <div className="flex flex-wrap gap-1">
+            {singleProduct?.data?.variants?.map((variant, index) => (
+              <button
+                key={variant._id}
+                onClick={() => selectColor(index)}
+                disabled={isProductLoading}
+                className={`flex items-center gap-2 rounded-full ${
+                  selectedColorIndex === index ? "bg-red-500 p-[2px]" : ""
+                } ${isProductLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+              >
+                <div
+                  className="w-6 h-6 rounded-full border"
+                  style={{ backgroundColor: variant.color.hexValue }}
+                ></div>
+              </button>
+            ))}
+          </div>
         </div>
 
-       
         <button
           onClick={() => switchSide("front")}
           disabled={isProductLoading}
-          className={`p-2 rounded ${currentSide === "front" ? "bg-red-400 text-white" : "bg-gray-200"} ${isProductLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+          className={`p-2 rounded ${
+            currentSide === "front" ? "bg-red-400 text-white" : "bg-gray-200"
+          } ${isProductLoading ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           Front Image
         </button>
         <button
           onClick={() => switchSide("back")}
           disabled={isProductLoading}
-          className={`p-2 rounded ${currentSide === "back" ? "bg-red-400 text-white" : "bg-gray-200"} ${isProductLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+          className={`p-2 rounded ${
+            currentSide === "back" ? "bg-red-400 text-white" : "bg-gray-200"
+          } ${isProductLoading ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           Back Image
         </button>
@@ -802,7 +1154,11 @@ export default function DesignPage() {
           <div className="border p-2">
             <h1>Front Image Preview:</h1>
             <div className="flex flex-col gap-2 mt-2">
-              <img src={previews[selectedColorIndex].front} alt="Front Preview" className="w-full" />
+              <img
+                src={previews[selectedColorIndex].front}
+                alt="Front Preview"
+                className="w-full"
+              />
             </div>
           </div>
         )}
@@ -810,7 +1166,11 @@ export default function DesignPage() {
           <div className="border p-2">
             <h1>Back Image Preview:</h1>
             <div className="flex flex-col gap-2 mt-2">
-              <img src={previews[selectedColorIndex].back} alt="Back Preview" className="w-full" />
+              <img
+                src={previews[selectedColorIndex].back}
+                alt="Back Preview"
+                className="w-full"
+              />
             </div>
           </div>
         )}
@@ -818,16 +1178,27 @@ export default function DesignPage() {
           <Link to="/allProduct/productDetails/design/saveDesign">
             <button
               onClick={() => {
-                console.log("Save Order button clicked, canvas:", !!canvas, "context:", canvas ? !!canvas.getContext() : false);
+                console.log(
+                  "Save Order button clicked, canvas:",
+                  !!canvas,
+                  "context:",
+                  canvas ? !!canvas.getContext() : false
+                );
                 if (canvas && canvas.getContext()) {
                   handlePersistDesigns();
                 } else {
-                  console.error("Save Order button clicked but canvas unavailable");
-                  toast.error("Canvas not initialized. Please wait or refresh.");
+                  console.error(
+                    "Save Order button clicked but canvas unavailable"
+                  );
+                  toast.error(
+                    "Canvas not initialized. Please wait or refresh."
+                  );
                 }
               }}
               disabled={isProductLoading}
-              className={`bg-red-500 text-white py-2 px-5 rounded ${isProductLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+              className={`bg-red-500 text-white py-2 px-5 rounded ${
+                isProductLoading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
               Save Order
             </button>
